@@ -1,0 +1,66 @@
+INFO:     Started server process [1529951]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:54397 (Press CTRL+C to quit)
+Server logs: /tmp/cao-codex-skills-v4foarqs/cao-home/logs/cao_2026-10-11_18-26-33.log
+For debug logs: export CAO_LOG_LEVEL=DEBUG && cao-server
+INFO:     127.0.0.1:58634 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58644 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58646 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58650 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58658 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58670 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34428 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34432 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34444 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34460 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34466 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34472 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33286 - "GET /workflows/runs/cao-fb38e969291d470eb3878ae216312f67 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:33296 - "GET /workflows/spec-planner HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33302 - "POST /workflows/runs%3Asubmit HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33308 - "GET /workflows/runs/cao-fb38e969291d470eb3878ae216312f67 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33324 - "GET /workflows/runs/cao-fb38e969291d470eb3878ae216312f67/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33334 - "GET /workflows/runs/cao-fb38e969291d470eb3878ae216312f67 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33350 - "GET /workflows/runs/cao-fb38e969291d470eb3878ae216312f67/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52152 - "GET /workflows/runs/cao-fb38e969291d470eb3878ae216312f67 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52158 - "GET /workflows/runs/cao-fb38e969291d470eb3878ae216312f67/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52174 - "GET /workflows/runs/cao-83e186f83c084055b718e2f67af952cd HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52182 - "GET /workflows/development-orchestrator HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52190 - "POST /workflows/runs%3Asubmit HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52202 - "GET /workflows/runs/cao-83e186f83c084055b718e2f67af952cd HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52204 - "GET /workflows/runs/cao-83e186f83c084055b718e2f67af952cd/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55578 - "GET /workflows/runs/cao-83e186f83c084055b718e2f67af952cd HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55592 - "GET /workflows/runs/cao-83e186f83c084055b718e2f67af952cd/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55600 - "GET /workflows/runs/cao-668510e33d7d423f98931777d858e5ad HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55602 - "GET /workflows/spec-update HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55608 - "POST /workflows/runs%3Asubmit HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:55616 - "GET /workflows/runs/cao-668510e33d7d423f98931777d858e5ad HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38460 - "GET /workflows/runs/cao-668510e33d7d423f98931777d858e5ad/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38470 - "GET /workflows/runs/cao-668510e33d7d423f98931777d858e5ad HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38476 - "GET /workflows/runs/cao-668510e33d7d423f98931777d858e5ad/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38486 - "GET /workflows/runs/cao-0d99be36f3ec493db8ba33a4062c359d HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:38488 - "GET /workflows/issue-orchestrator HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38498 - "POST /workflows/runs%3Asubmit HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33940 - "GET /workflows/runs/cao-0d99be36f3ec493db8ba33a4062c359d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33952 - "GET /workflows/runs/cao-0d99be36f3ec493db8ba33a4062c359d/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33954 - "GET /workflows/runs/cao-0d99be36f3ec493db8ba33a4062c359d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33956 - "GET /workflows/runs/cao-0d99be36f3ec493db8ba33a4062c359d/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33958 - "GET /workflows/runs/cao-01791f4d66864ac0be9e96d15e785117 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:33970 - "GET /workflows/pr-review HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33972 - "POST /workflows/runs%3Asubmit HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:51414 - "GET /workflows/runs/cao-01791f4d66864ac0be9e96d15e785117 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51416 - "GET /workflows/runs/cao-01791f4d66864ac0be9e96d15e785117/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51428 - "GET /workflows/runs/cao-01791f4d66864ac0be9e96d15e785117 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51436 - "GET /workflows/runs/cao-01791f4d66864ac0be9e96d15e785117/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51450 - "GET /workflows/runs/cao-644300b4a00e438297d23ac9e44da317 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51466 - "GET /workflows/pr-apply HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51476 - "POST /workflows/runs%3Asubmit HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:55632 - "GET /workflows/runs/cao-644300b4a00e438297d23ac9e44da317 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55644 - "GET /workflows/runs/cao-644300b4a00e438297d23ac9e44da317/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55654 - "GET /workflows/runs/cao-644300b4a00e438297d23ac9e44da317 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55658 - "GET /workflows/runs/cao-644300b4a00e438297d23ac9e44da317/result HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1529951]

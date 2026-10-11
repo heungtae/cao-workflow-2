@@ -47,7 +47,7 @@ def guard_argv(argv, *, branch=None, base=None):
 
 def inspect_source(root):
     violations = []
-    for directory in ("workflow_lib", "workflows", "harness", "scripts"):
+    for directory in ("workflow_lib", "workflows", "harness", "scripts", "codex-skills"):
         for path in (Path(root) / directory).rglob("*.py"):
             if path.name == "merge_guard.py":
                 continue

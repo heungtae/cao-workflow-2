@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "run_id",
+    "workflow",
+    "project",
+    "feature",
+    "status",
+    "cao_state",
+    "dry_run",
+    "next_action"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,100}$"
+    },
+    "workflow": {
+      "enum": [
+        "spec-planner",
+        "spec-update",
+        "development-orchestrator",
+        "issue-orchestrator",
+        "pr-review",
+        "pr-apply"
+      ]
+    },
+    "project": {
+      "type": "string"
+    },
+    "feature": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "RUNNING",
+        "COMPLETED",
+        "PASS",
+        "FAILED",
+        "CANCELLED",
+        "BLOCKED_SPEC",
+        "BLOCKED_ENVIRONMENT",
+        "HUMAN_REQUIRED",
+        "MAX_RETRIES",
+        "CHANGES_REQUIRED",
+        "AWAITING_HUMAN_MERGE",
+        "DRY_RUN",
+        "UNVERIFIED",
+        "CONNECTION_LOST",
+        "SUBMISSION_UNCERTAIN"
+      ]
+    },
+    "cao_state": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "dry_run": {
+      "type": "boolean"
+    },
+    "next_action": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "changed_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

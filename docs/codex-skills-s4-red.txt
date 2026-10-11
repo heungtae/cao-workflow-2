@@ -1,0 +1,65 @@
+F.F..........F.........                                 [100%]
+=================================== FAILURES ===================================
+_ SkillTests.test_actual_cao_retained_result_omits_output_use_owned_durable_artifact _
+
+self = <test_codex_skills.SkillTests testMethod=test_actual_cao_retained_result_omits_output_use_owned_durable_artifact>
+
+    def test_actual_cao_retained_result_omits_output_use_owned_durable_artifact(self):
+        import hashlib
+
+        self.runner = SkillRunner(
+            self.root, self.cao, endpoint="fixture://cao", cao_home=Path(self.tmp.name) / "cao-home"
+        )
+        run_id = self.start()["run_id"]
+        self.cao.state = "completed"
+        directory = (
+            self.runner.cao_home
+            / "workflow-data"
+            / hashlib.sha256(run_id.encode()).hexdigest()[:20]
+        )
+        directory.mkdir(parents=True)
+>       (directory / "result.json").write_text(json.dumps(result("DRY_RUN", run_id=run_id)))
+                                               ^^^^
+E       NameError: name 'json' is not defined. Did you forget to import 'json'?
+
+tests/test_codex_skills.py:373: NameError
+___ SkillTests.test_all_workflow_inputs_and_eligible_issue_mock_integration ____
+
+self = <test_codex_skills.SkillTests testMethod=test_all_workflow_inputs_and_eligible_issue_mock_integration>
+
+    def test_all_workflow_inputs_and_eligible_issue_mock_integration(self):
+        from workflow_lib.issue_intake import event_digest
+
+        subprocess.run(["git", "-C", str(self.root), "remote", "add", "origin", "git@github.com:owner/repo.git"], check=True)
+        event = {"event_id": "evt", "origin_id": "origin", "repo": "owner/repo", "issue_number": 123,
+                 "author": "bot", "body": "Improve value", "risk": "low", "files": ["src/value.py"],
+                 "source": "cao"}
+        # Use the actual existing Issue event contract.
+>       schema = json.loads((ROOT / "contracts/issue-event.schema.json").read_text())
+                 ^^^^
+E       NameError: name 'json' is not defined. Did you forget to import 'json'?
+
+tests/test_codex_skills.py:402: NameError
+__ SkillTests.test_pr_apply_requires_all_confirmed_thread_fields_and_evidence __
+
+self = <test_codex_skills.SkillTests testMethod=test_pr_apply_requires_all_confirmed_thread_fields_and_evidence>
+
+    def test_pr_apply_requires_all_confirmed_thread_fields_and_evidence(self):
+        from workflow_lib.codex_skills import completion_evidence
+
+        gates = [{"argv": [name], "exit_code": 0, "tests": 1 if name == "test" else 0,
+                  "errors": [], "failures": []} for name in ("test", "static", "coverage")]
+        thread = {"thread_id": "thread", "resolution_status": "RESOLVED", "fix_commit_sha": "a" * 40,
+                  "test_evidence": gates, "reply_comment_id": 1, "github_is_resolved": True}
+        value = result("PASS", evidence=gates, head_sha="a" * 40, threads=[thread])
+        self.assertTrue(completion_evidence("pr-apply", value))
+        thread["reply_comment_id"] = None
+>       self.assertFalse(completion_evidence("pr-apply", value))
+E       AssertionError: True is not false
+
+tests/test_codex_skills.py:392: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_codex_skills.py::SkillTests::test_actual_cao_retained_result_omits_output_use_owned_durable_artifact
+FAILED tests/test_codex_skills.py::SkillTests::test_all_workflow_inputs_and_eligible_issue_mock_integration
+FAILED tests/test_codex_skills.py::SkillTests::test_pr_apply_requires_all_confirmed_thread_fields_and_evidence
+3 failed, 20 passed, 17 subtests passed in 0.77s

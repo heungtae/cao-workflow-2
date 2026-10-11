@@ -1,0 +1,260 @@
+{
+  "cao_binary": "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/cao",
+  "cao_home": "/tmp/cao-workflows-validation-26w79ghh/cao-home",
+  "python": "3.14.4",
+  "gh": "/usr/bin/gh",
+  "specify": null,
+  "bwrap": "/usr/bin/bwrap",
+  "profiles": [],
+  "runtime_agents_verified": false,
+  "github_live_verified": false,
+  "codex_binary": "/home/heungtae/.nvm/versions/node/v20.19.6/bin/codex",
+  "agent_config_ready": false,
+  "cao_version": "cao, version 2.5.0",
+  "supported_commands": [
+    "run",
+    "validate",
+    "status",
+    "cancel",
+    "resume",
+    "result"
+  ],
+  "cao_cli_ok": true
+}
+{"dry_run": true, "owned_files": 55}
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+{
+  "cao_binary": "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/cao",
+  "cao_home": "/tmp/cao-workflows-validation-26w79ghh/cao-home",
+  "python": "3.14.4",
+  "gh": "/usr/bin/gh",
+  "specify": null,
+  "bwrap": "/usr/bin/bwrap",
+  "profiles": [
+    "pr-applier",
+    "pr-reviewer",
+    "spec-planner",
+    "spec-reviewer",
+    "tdd-developer",
+    "tdd-tester"
+  ],
+  "runtime_agents_verified": false,
+  "github_live_verified": false,
+  "codex_binary": "/home/heungtae/.nvm/versions/node/v20.19.6/bin/codex",
+  "agent_config_ready": false,
+  "cao_version": "cao, version 2.5.0",
+  "supported_commands": [
+    "run",
+    "validate",
+    "status",
+    "cancel",
+    "resume",
+    "result"
+  ],
+  "cao_cli_ok": true
+}
+{"dry_run": false, "owned_files": 55}
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+{
+  "cao_binary": "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/cao",
+  "cao_home": "/tmp/cao-workflows-validation-26w79ghh/cao-home",
+  "python": "3.14.4",
+  "gh": "/usr/bin/gh",
+  "specify": null,
+  "bwrap": "/usr/bin/bwrap",
+  "profiles": [
+    "pr-applier",
+    "pr-reviewer",
+    "spec-planner",
+    "spec-reviewer",
+    "tdd-developer",
+    "tdd-tester"
+  ],
+  "runtime_agents_verified": false,
+  "github_live_verified": false,
+  "codex_binary": "/home/heungtae/.nvm/versions/node/v20.19.6/bin/codex",
+  "agent_config_ready": false,
+  "cao_version": "cao, version 2.5.0",
+  "supported_commands": [
+    "run",
+    "validate",
+    "status",
+    "cancel",
+    "resume",
+    "result"
+  ],
+  "cao_cli_ok": true
+}
+{"dry_run": false, "owned_files": 55}
+test_actual_shim_contract_budget_replay (test_agent.AgentTests.test_actual_shim_contract_budget_replay) ... ok
+test_secret_prompt_is_rejected_before_shim (test_agent.AgentTests.test_secret_prompt_is_rejected_before_shim) ... ok
+test_unobservable_currency_budget_blocks_before_agent_execution (test_agent.AgentTests.test_unobservable_currency_budget_blocks_before_agent_execution) ... ok
+test_corrupt_manifest_or_runtime_cannot_escape_or_execute (test_codex_skill_install.SkillInstallTests.test_corrupt_manifest_or_runtime_cannot_escape_or_execute) ... ok
+test_dry_run_rollback_and_symlink_escape (test_codex_skill_install.SkillInstallTests.test_dry_run_rollback_and_symlink_escape) ... ok
+test_existing_directory_collision_even_if_unmanaged_extra (test_codex_skill_install.SkillInstallTests.test_existing_directory_collision_even_if_unmanaged_extra) ... ok
+test_force_backup_restore_and_user_modification_protected (test_codex_skill_install.SkillInstallTests.test_force_backup_restore_and_user_modification_protected) ... ok
+test_force_reinstall_backs_up_latest_user_modified_owned_file (test_codex_skill_install.SkillInstallTests.test_force_reinstall_backs_up_latest_user_modified_owned_file) ... ok
+test_install_reinstall_and_owned_uninstall (test_codex_skill_install.SkillInstallTests.test_install_reinstall_and_owned_uninstall) ... ok
+test_installed_launcher_blocks_runtime_and_hash_manifest_tampering (test_codex_skill_install.SkillInstallTests.test_installed_launcher_blocks_runtime_and_hash_manifest_tampering) ... ok
+test_scripts_project_global_and_validation (test_codex_skill_install.SkillInstallTests.test_scripts_project_global_and_validation) ... ok
+test_actual_cao_retained_result_omits_output_use_owned_durable_artifact (test_codex_skills.SkillTests.test_actual_cao_retained_result_omits_output_use_owned_durable_artifact) ... ok
+test_actual_lowercase_cao_state_and_script_get_shape (test_codex_skills.SkillTests.test_actual_lowercase_cao_state_and_script_get_shape) ... ok
+test_all_workflow_inputs_and_eligible_issue_mock_integration (test_codex_skills.SkillTests.test_all_workflow_inputs_and_eligible_issue_mock_integration) ... ok
+test_ambiguous_submit_never_submits_again (test_codex_skills.SkillTests.test_ambiguous_submit_never_submits_again) ... ok
+test_cao_transport_retries_reads_only_and_classifies_404 (test_codex_skills.SkillTests.test_cao_transport_retries_reads_only_and_classifies_404) ... ok
+test_changed_config_cannot_launch_second_run_for_same_feature (test_codex_skills.SkillTests.test_changed_config_cannot_launch_second_run_for_same_feature) ... ok
+test_connection_failure_recovery_and_bounded_wait (test_codex_skills.SkillTests.test_connection_failure_recovery_and_bounded_wait) ... ok
+test_current_codex_profile_files_validated_and_native_probe_required (test_codex_skills.SkillTests.test_current_codex_profile_files_validated_and_native_probe_required) ... ok
+test_exact_inputs_single_orchestrator_and_durable_status (test_codex_skills.SkillTests.test_exact_inputs_single_orchestrator_and_durable_status) ... ok
+test_frozen_inputs_reject_tamper_on_resume (test_codex_skills.SkillTests.test_frozen_inputs_reject_tamper_on_resume) ... ok
+test_invalid_inputs_block_before_cao (test_codex_skills.SkillTests.test_invalid_inputs_block_before_cao) ... ok
+test_live_execution_requires_verified_isolation_and_remote_permission (test_codex_skills.SkillTests.test_live_execution_requires_verified_isolation_and_remote_permission) ... ok
+test_metadata_and_command_mapping (test_codex_skills.SkillTests.test_metadata_and_command_mapping) ... ok
+test_never_merge_static_and_no_mock_mutation (test_codex_skills.SkillTests.test_never_merge_static_and_no_mock_mutation) ... ok
+test_new_explicit_spec_update_after_terminal_run_is_allowed (test_codex_skills.SkillTests.test_new_explicit_spec_update_after_terminal_run_is_allowed) ... ok
+test_pr_apply_requires_all_confirmed_thread_fields_and_evidence (test_codex_skills.SkillTests.test_pr_apply_requires_all_confirmed_thread_fields_and_evidence) ... ok
+test_pr_completion_reports_authoritative_unresolved_count_and_sha_race (test_codex_skills.SkillTests.test_pr_completion_reports_authoritative_unresolved_count_and_sha_race) ... ok
+test_real_gate_evidence_success_then_failed_final_gate_is_unverified (test_codex_skills.SkillTests.test_real_gate_evidence_success_then_failed_final_gate_is_unverified) ... ok
+test_registry_symlink_cannot_write_outside_project (test_codex_skills.SkillTests.test_registry_symlink_cannot_write_outside_project) ... ok
+test_resume_cancel_existing_run_only_and_project_binding (test_codex_skills.SkillTests.test_resume_cancel_existing_run_only_and_project_binding) ... ok
+test_resume_never_uses_stale_failed_snapshot_after_connection_loss (test_codex_skills.SkillTests.test_resume_never_uses_stale_failed_snapshot_after_connection_loss) ... ok
+test_run_id_collision_and_duplicate_identity (test_codex_skills.SkillTests.test_run_id_collision_and_duplicate_identity) ... ok
+test_spec_missing_changed_or_policy_approval_blocks (test_codex_skills.SkillTests.test_spec_missing_changed_or_policy_approval_blocks) ... ok
+test_spec_plan_allocates_feature_without_starting_development (test_codex_skills.SkillTests.test_spec_plan_allocates_feature_without_starting_development) ... ok
+test_spec_plan_repeat_reuses_id_and_safe_argument_array (test_codex_skills.SkillTests.test_spec_plan_repeat_reuses_id_and_safe_argument_array) ... ok
+test_terminal_failure_cancel_human_and_no_evidence_success (test_codex_skills.SkillTests.test_terminal_failure_cancel_human_and_no_evidence_success) ... ok
+test_wrong_issue_receipt_and_repository_block (test_codex_skills.SkillTests.test_wrong_issue_receipt_and_repository_block) ... ok
+test_approval_requires_committed_specs (test_development_orchestrator.DevelopmentTests.test_approval_requires_committed_specs) ... ok
+test_blocked_spec_and_bounded_cycles (test_development_orchestrator.DevelopmentTests.test_blocked_spec_and_bounded_cycles) ... ok
+test_green_failure_no_review (test_development_orchestrator.DevelopmentTests.test_green_failure_no_review) ... ok
+test_loop_and_no_planner_or_pr (test_development_orchestrator.DevelopmentTests.test_loop_and_no_planner_or_pr) ... ok
+test_malformed_review_findings_fail_closed (test_development_orchestrator.DevelopmentTests.test_malformed_review_findings_fail_closed) ... ok
+test_missing_specs_and_invalid_results (test_development_orchestrator.DevelopmentTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_development_orchestrator.DevelopmentTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_development_orchestrator.DevelopmentTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_development_orchestrator.DevelopmentTests.test_review_readonly_detects_mutation) ... ok
+test_approval_requires_committed_specs (test_workflows.ProjectTests.test_approval_requires_committed_specs) ... ok
+test_malformed_review_findings_fail_closed (test_workflows.ProjectTests.test_malformed_review_findings_fail_closed) ... ok
+test_missing_specs_and_invalid_results (test_workflows.ProjectTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_workflows.ProjectTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_workflows.ProjectTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_workflows.ProjectTests.test_review_readonly_detects_mutation) ... ok
+test_apply_resume_after_ci_delay_without_duplicate_fix_push_reply (test_end_to_end.E2ETests.test_apply_resume_after_ci_delay_without_duplicate_fix_push_reply) ... ok
+test_completed_issue_revalidates_ci_and_new_threads (test_end_to_end.E2ETests.test_completed_issue_revalidates_ci_and_new_threads) ... ok
+test_review_apply_rereview_and_no_external_merge (test_end_to_end.E2ETests.test_review_apply_rereview_and_no_external_merge) ... ok
+test_sha_race_and_cycle_cap (test_end_to_end.E2ETests.test_sha_race_and_cycle_cap) ... ok
+test_junit_assertion_infra_and_redaction (test_gate_execution.GateExecutionTests.test_junit_assertion_infra_and_redaction) ... ok
+test_real_isolated_command_and_no_network_or_credentials (test_gate_execution.GateExecutionTests.test_real_isolated_command_and_no_network_or_credentials) ... ok
+test_collision_force_restore_and_modified_protection (test_install.InstallTests.test_collision_force_restore_and_modified_protection) ... ok
+test_deployment_pins_runtime_and_preserves_old_bundle (test_install.InstallTests.test_deployment_pins_runtime_and_preserves_old_bundle) ... ok
+test_install_reinstall_uninstall_preserves_user (test_install.InstallTests.test_install_reinstall_uninstall_preserves_user) ... ok
+test_interrupted_install_journal_recovers_without_overwriting_user_edit (test_install.InstallTests.test_interrupted_install_journal_recovers_without_overwriting_user_edit) ... ok
+test_rollback_and_dry_run (test_install.InstallTests.test_rollback_and_dry_run) ... ok
+test_symlink_escape_rejected (test_install.InstallTests.test_symlink_escape_rejected) ... ok
+test_dryrun_and_highrisk_no_steps (test_issue_orchestrator.IntakeTests.test_dryrun_and_highrisk_no_steps) ... ok
+test_issue_stops_at_human_merge_and_resume (test_issue_orchestrator.IntakeTests.test_issue_stops_at_human_merge_and_resume) ... ok
+test_origin_and_sensitive_scope (test_issue_orchestrator.IntakeTests.test_origin_and_sensitive_scope) ... ok
+test_adapter_never_grants_forbidden_operations (test_never_merge.NeverMergeTests.test_adapter_never_grants_forbidden_operations) ... ok
+test_denied_commands_all_approval_modes (test_never_merge.NeverMergeTests.test_denied_commands_all_approval_modes) ... ok
+test_no_executable_merge_paths (test_never_merge.NeverMergeTests.test_no_executable_merge_paths) ... ok
+test_shell_executable_scan (test_never_merge.NeverMergeTests.test_shell_executable_scan) ... ok
+test_static_ast_split_argv_and_raw_adapter_are_blocked (test_never_merge.NeverMergeTests.test_static_ast_split_argv_and_raw_adapter_are_blocked) ... ok
+test_ci_delay_outdated_resolve_failure_permission (test_pr_apply.ApplyTests.test_ci_delay_outdated_resolve_failure_permission) ... ok
+test_failure_and_dispute_never_resolve (test_pr_apply.ApplyTests.test_failure_and_dispute_never_resolve) ... ok
+test_fix_test_reply_resolve_open (test_pr_apply.ApplyTests.test_fix_test_reply_resolve_open) ... ok
+test_allowlist_and_dryrun (test_pr_review_threads.ReviewTests.test_allowlist_and_dryrun) ... ok
+test_deleted_line_can_receive_left_side_inline_comment (test_pr_review_threads.ReviewTests.test_deleted_line_can_receive_left_side_inline_comment) ... ok
+test_inline_and_dedup (test_pr_review_threads.ReviewTests.test_inline_and_dedup) ... ok
+test_paginated_reads_support_installed_gh_without_slurp (test_pr_review_threads.ReviewTests.test_paginated_reads_support_installed_gh_without_slurp) ... ok
+test_stale_sha_and_invalid_line (test_pr_review_threads.ReviewTests.test_stale_sha_and_invalid_line) ... ok
+test_approval_requires_committed_specs (test_workflows.ProjectTests.test_approval_requires_committed_specs) ... ok
+test_malformed_review_findings_fail_closed (test_workflows.ProjectTests.test_malformed_review_findings_fail_closed) ... ok
+test_missing_specs_and_invalid_results (test_workflows.ProjectTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_workflows.ProjectTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_workflows.ProjectTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_workflows.ProjectTests.test_review_readonly_detects_mutation) ... ok
+test_assertion_only_is_red (test_quality_gate.RedTests.test_assertion_only_is_red) ... ok
+test_approval_requires_committed_specs (test_quality_gate.TDDTests.test_approval_requires_committed_specs) ... ok
+test_completed_tdd_resumes_without_rerunning_red_or_agents (test_quality_gate.TDDTests.test_completed_tdd_resumes_without_rerunning_red_or_agents) ... ok
+test_green_failure_stops_refactor (test_quality_gate.TDDTests.test_green_failure_stops_refactor) ... ok
+test_green_retry_is_bounded_and_preserves_tests (test_quality_gate.TDDTests.test_green_retry_is_bounded_and_preserves_tests) ... ok
+test_malformed_review_findings_fail_closed (test_quality_gate.TDDTests.test_malformed_review_findings_fail_closed) ... ok
+test_missing_specs_and_invalid_results (test_quality_gate.TDDTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_quality_gate.TDDTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_quality_gate.TDDTests.test_planner_only_plan_and_approval_hash) ... ok
+test_red_green_refactor_order (test_quality_gate.TDDTests.test_red_green_refactor_order) ... ok
+test_review_readonly_detects_mutation (test_quality_gate.TDDTests.test_review_readonly_detects_mutation) ... ok
+test_test_tampering_and_spec_change_blocked (test_quality_gate.TDDTests.test_test_tampering_and_spec_change_blocked) ... ok
+test_actual_pytest_red_green_refactor_and_coverage_commands (test_real_tdd.RealTDDTests.test_actual_pytest_red_green_refactor_and_coverage_commands) ... ok
+test_cancel_and_exclusion (test_recovery.RecoveryTests.test_cancel_and_exclusion) ... ok
+test_checkpoint_replay_and_inputs_frozen (test_recovery.RecoveryTests.test_checkpoint_replay_and_inputs_frozen) ... ok
+test_dag_and_ownership (test_recovery.RecoveryTests.test_dag_and_ownership) ... ok
+test_real_dag_worktrees_preserve_source (test_recovery.RecoveryTests.test_real_dag_worktrees_preserve_source) ... ok
+test_unknown_completion_requires_reconcile (test_recovery.RecoveryTests.test_unknown_completion_requires_reconcile) ... ok
+test_observed_metrics_and_unavailable_cost_are_distinct (test_reporters.ReporterTests.test_observed_metrics_and_unavailable_cost_are_distinct) ... ok
+test_invalid_preflight_has_structured_failure_report (test_runtime.RuntimeTests.test_invalid_preflight_has_structured_failure_report) ... ok
+test_dryrun_dedup_and_unauthorized_workflow (test_triggers.TriggerTests.test_dryrun_dedup_and_unauthorized_workflow) ... ok
+test_hmac_latest_pr_metadata_and_ignore_closed (test_triggers.TriggerTests.test_hmac_latest_pr_metadata_and_ignore_closed) ... ok
+test_jira_fixed_read_adapter_and_planner_only (test_triggers.TriggerTests.test_jira_fixed_read_adapter_and_planner_only) ... ok
+test_approval_requires_committed_specs (test_workflows.ProjectTests.test_approval_requires_committed_specs) ... ok
+test_malformed_review_findings_fail_closed (test_workflows.ProjectTests.test_malformed_review_findings_fail_closed) ... ok
+test_missing_specs_and_invalid_results (test_workflows.ProjectTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_workflows.ProjectTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_workflows.ProjectTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_workflows.ProjectTests.test_review_readonly_detects_mutation) ... ok
+
+----------------------------------------------------------------------
+Ran 116 tests in 3.983s
+
+OK
+All checks passed!
+62 files already formatted
+ShellCheck unavailable (not claimed as passed)
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+valid
+[
+  {
+    "key": "fixture-dry-run",
+    "status": "DRY_RUN",
+    "cancelled": 0
+  }
+]
+[
+  {
+    "key": "fixture-dry-run",
+    "status": "CANCELLED",
+    "cancelled": 1
+  }
+]
+["/tmp/cao-workflows-validation-26w79ghh/cao-home/agent-store/pr-applier.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/agent-store/pr-reviewer.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/agent-store/spec-planner.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/agent-store/spec-reviewer.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/agent-store/tdd-developer.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/agent-store/tdd-tester.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/contracts/codex-skill-result.schema.json", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/contracts/issue-event.schema.json", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/contracts/pr-apply-result.schema.json", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/contracts/review-result.schema.json", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/contracts/workflow-result.schema.json", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/harness/__init__.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/harness/quality_gate.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/harness/reporters.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/harness/spec_traceability.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/prompts/plan.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/prompts/refactor.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/prompts/review.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/prompts/specify.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/prompts/tdd-green.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/prompts/tdd-red.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/__init__.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/agent.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/approvals.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/codex_skills.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/contracts.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/dispatcher.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/github_pr.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/installation.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/isolation.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/issue_intake.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/issue_state.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/jira.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/merge_guard.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/orchestrators.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/parallel.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/pr_create.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/project.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/review.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/review_threads.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/runtime.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/skill_installation.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/tdd.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/triggers.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/development-orchestrator.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/issue-orchestrator.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/pr-apply.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/pr-create.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/pr-review.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/spec-plan.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/spec-planner.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/spec-review.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/spec-tdd.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/spec-update.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/tdd-developer.py"]
+["/tmp/cao-workflows-validation-26w79ghh/cao-home/agent-store/pr-applier.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/agent-store/pr-reviewer.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/agent-store/spec-planner.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/agent-store/spec-reviewer.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/agent-store/tdd-developer.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/agent-store/tdd-tester.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/contracts/codex-skill-result.schema.json", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/contracts/issue-event.schema.json", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/contracts/pr-apply-result.schema.json", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/contracts/review-result.schema.json", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/contracts/workflow-result.schema.json", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/harness/__init__.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/harness/quality_gate.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/harness/reporters.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/harness/spec_traceability.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/prompts/plan.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/prompts/refactor.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/prompts/review.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/prompts/specify.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/prompts/tdd-green.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/prompts/tdd-red.md", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/__init__.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/agent.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/approvals.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/codex_skills.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/contracts.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/dispatcher.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/github_pr.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/installation.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/isolation.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/issue_intake.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/issue_state.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/jira.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/merge_guard.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/orchestrators.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/parallel.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/pr_create.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/project.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/review.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/review_threads.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/runtime.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/skill_installation.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/tdd.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/.cao-workflows-bundles/a564896c31b4f82fe8bab8a6537988cd328b01dde134209a058c40d3333ea102/workflow_lib/triggers.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/development-orchestrator.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/issue-orchestrator.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/pr-apply.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/pr-create.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/pr-review.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/spec-plan.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/spec-planner.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/spec-review.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/spec-tdd.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/spec-update.py", "/tmp/cao-workflows-validation-26w79ghh/cao-home/workflows/tdd-developer.py"]
+LOCAL INTEGRATION PASS: install/reinstall/11 CAO validates/profile schema/full tests/dry-run shim/status/cancel/uninstall

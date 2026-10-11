@@ -1,0 +1,104 @@
+..............F...............F...                  [100%]
+=================================== FAILURES ===================================
+____ SkillTests.test_new_explicit_spec_update_after_terminal_run_is_allowed ____
+
+self = <test_codex_skills.SkillTests testMethod=test_new_explicit_spec_update_after_terminal_run_is_allowed>
+
+    def test_new_explicit_spec_update_after_terminal_run_is_allowed(self):
+        first = self.start(["spec", "update", self.feature, "first change"])
+        self.cao.state = "COMPLETED"
+        self.cao.output = result("DRY_RUN", run_id=first["run_id"])
+>       second = self.start(["spec", "update", self.feature, "second change"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codex_skills.py:357:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/test_codex_skills.py:111: in start
+    return self.runner.start(parse_request(command or ["dev", "run", self.feature]), **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <workflow_lib.codex_skills.SkillRunner object at 0x73df258a6c90>
+request = Request(skill='cao-spec', workflow='spec-update', verb='update', target='001-feature', requirement='second change')
+settings = {}, execute = False, authorized = False, run_id = None
+
+    def start(self, request, *, settings=None, execute=False, authorized=False, run_id=None):
+        settings = read_settings(self.root) if settings is None else settings
+        with lock(self.store):
+            inputs = self.prepare(request, settings, execute, authorized)
+            fingerprints = {
+                key: hashlib.sha256(Path(inputs[key]).read_bytes()).hexdigest()
+                for key in ("config", "policy", "event")
+                if key in inputs
+            }
+            identity = hashlib.sha256(
+                json.dumps(
+                    [
+                        request.workflow,
+                        str(self.root),
+                        request.target or request.requirement,
+                        inputs,
+                        fingerprints,
+                    ],
+                    sort_keys=True,
+                ).encode()
+            ).hexdigest()
+            if run_id and safe(self.store, identifier(run_id) + ".json").exists():
+                raise ValueError("Run ID collision: inspect existing run")
+            for path in self.store.glob("*.json"):
+                record = json.loads(safe(self.store, path.name).read_text())
+                if record["endpoint"] != self.endpoint:
+                    continue
+                if record["identity"] == identity:
+                    return self.status(record["run_id"])
+                if (
+                    record["workflow"] == request.workflow
+                    and record["feature"] == inputs["feature"]
+                    and record["inputs"]["dry_run"] == inputs["dry_run"]
+                ):
+>                   raise ValueError(
+                        "existing feature run has different inputs; inspect/resume existing ID"
+                    )
+E                   ValueError: existing feature run has different inputs; inspect/resume existing ID
+
+workflow_lib/codex_skills.py:421: ValueError
+_ SkillInstallTests.test_force_reinstall_backs_up_latest_user_modified_owned_file _
+
+self = <test_codex_skill_install.SkillInstallTests testMethod=test_force_reinstall_backs_up_latest_user_modified_owned_file>
+
+    def test_force_reinstall_backs_up_latest_user_modified_owned_file(self):
+        install_skills(ROOT, self.dest)
+        path = self.dest / "cao-dev/SKILL.md"
+        path.write_text("user customization")
+        install_skills(ROOT, self.dest, force=True)
+        uninstall_skills(self.dest)
+>       self.assertEqual(path.read_text(), "user customization")
+                         ^^^^^^^^^^^^^^^^
+
+tests/test_codex_skill_install.py:62:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/usr/lib/python3.14/pathlib/__init__.py:788: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = PosixPath('/tmp/tmp0df7dg8e/project space/.agents/skills/cao-dev/SKILL.md')
+mode = 'r', buffering = -1, encoding = 'locale', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp0df7dg8e/project space/.agents/skills/cao-dev/SKILL.md'
+
+/usr/lib/python3.14/pathlib/__init__.py:772: FileNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_codex_skills.py::SkillTests::test_new_explicit_spec_update_after_terminal_run_is_allowed
+FAILED tests/test_codex_skill_install.py::SkillInstallTests::test_force_reinstall_backs_up_latest_user_modified_owned_file
+2 failed, 32 passed, 21 subtests passed in 1.95s

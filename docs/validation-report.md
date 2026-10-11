@@ -69,3 +69,63 @@ Progress is retained in SQLite run/step checkpoints, phase evidence, JSON/Markdo
 ## Subsequent authorized disposable GitHub test
 
 See [GitHub live validation](github-live-validation.md) for actual repository/Issue/draft PR creation, two inline review/apply cycles, isolated RED/GREEN gates, real CI wait/resume, replies and confirmed Resolve. The installed gh 2.46.0 pagination incompatibility was reproduced, regression-tested and fixed. The live adapter/feature-push/CI boundary is now qualified for this disposable repository; provider Agents, Planner and full Issue orchestration remain LIVE_UNVERIFIED.
+
+## Codex Skills — Sprint 0 (2026-10-11)
+
+- Read both complete build specs, existing INPUTS, installation transactions, runtime approval and issue intake contracts.
+- Codex CLI 0.162.1; repository venv CAO 2.5.0. PATH cao fails ModuleNotFoundError; it was not modified.
+- Actual CLI: workflow get/run/status/result/resume/cancel; run supports --detach/--run-id/--input/--json; resume is blocking and never a new submission.
+- Official Codex documentation confirms name/description frontmatter, explicit $ invocation, implicit description matching, ~/.agents/skills and project .agents/skills: https://learn.chatgpt.com/docs/build-skills.
+- CAO_TEST_ISOLATION=1 .venv/bin/python -m pytest tests/test_gate_execution.py -q: 2 passed; real bubblewrap has no host credentials/network.
+- No running CAO server found. Subsequent local smoke will use temporary CAO_HOME and loopback server; no external GitHub writes.
+
+## Codex Skills — final local validation (2026-10-11)
+
+**Local implementation and automation gates passed. Overall operational acceptance is LIVE_UNVERIFIED; Sprint 5 is partial.** This does not claim that a real model selected a skill, generated specs, ran Developer↔Reviewer or published GitHub changes.
+
+| Sprint | Result | Evidence |
+| --- | --- | --- |
+| 0 | PASS | Both complete specifications, existing runtime/INPUTS/install contracts, CAO 2.5.0 actual help/source, Codex 0.162.1 and official Skills/CLI docs inspected; actual bwrap isolation passed. |
+| 1 | PASS | Five valid YAML Skills, natural command routing metadata plus explicit invocation, input validation. `codex-skills-red.txt` -> `codex-skills-s1-green.txt`; strict YAML RED -> GREEN and all five official skill-creator validators PASS. |
+| 2 | PASS | Durable pre-submit ID, existing-ID deduplication, safe argv, project/server/home binding, frozen config/event/policy, terminal and query error separation, bounded read retries, existing-run resume/cancel. Lifecycle and retained-output RED -> GREEN logs. |
+| 3 | PASS | Global/Project transactional deployment, collision/force backups, latest customized-file restoration, rollback, manifest ownership, immutable hash checks, symlink protection and safe removal. Install/bundle/update RED -> GREEN logs. |
+| 4 | PASS | Full offline Mock integration of all command routes, approved-spec checks, provenance/number/repository binding, terminal/no-evidence/CI/SHA/thread reply/Resolve checks, static and runtime never-merge gates. |
+| 5 | PARTIAL / LIVE_UNVERIFIED | Actual Codex Global/Project discovery PASS; native write/read-only profile probes PASS; actual 6 CAO dry-run submissions/status/result PASS and fresh-session status PASS. Model selection and live provider Workflow are not verified. |
+| 6 | PASS locally | README/user guide/progress/evidence recorded; final 116 pytest cases and 29 subtests passed, zero skips; existing Workflow installation/regression and syntax/quality gates passed. Overall completion awaits Sprint 5. |
+
+### Executed final gates
+
+- `CAO_TEST_ISOLATION=1 .venv/bin/python -m pytest -q`: **116 passed, 29 subtests passed, zero skips**. [Full log](codex-skills-regression.txt).
+- `.venv/bin/ruff check workflow_lib workflows harness scripts tests codex-skills`: PASS. `ruff format --check` on the same paths: **72 files already formatted**. `bash -n` for every scripts/*.sh: PASS. ShellCheck is unavailable and is not claimed PASS. [Quality evidence](codex-skills-quality-gate.txt).
+- Official `/home/heungtae/.codex/skills/.system/skill-creator/scripts/quick_validate.py` for each of the 5 Skills: **Skill is valid!**. Includes proper YAML quoting, beyond regex metadata checks.
+- `./scripts/validate-codex-skills.sh`: PASS for source structure and executable safety scan, including Skill helper scripts.
+- `.venv/bin/python scripts/verify-local.py`: **LOCAL INTEGRATION PASS**, temporary CAO server/home, install/reinstall, 11 CAO Workflow validates, actual profile schema, full unittest regression, stripped-environment shim/durable result, status/cancel and owned uninstall. [Existing Workflow regression](codex-skills-workflow-regression.txt); regenerated server log [local-server.log](local-server.log).
+- `.venv/bin/python scripts/verify-codex-skills.py`: PASS, real Codex app-server `skills/list` sees all five enabled Skills in both repo/user scopes. Both actual `codex sandbox` profiles enforce network denial. All six routes (spec-planner, spec-update, development-orchestrator, issue-orchestrator, pr-review, pr-apply) were actually submitted to a disposable CAO 2.5.0 server and returned validated **DRY_RUN**. No Agent/model or external GitHub operation started. [Actual integration](codex-skills-live.txt), [server requests](codex-skills-server.log).
+- Global real user install: `install-codex-skills.sh --global --dry-run`, actual `--global`, `validate-codex-skills.sh --global`, installed independent launcher `--help`, fresh actual Codex `skills/list`: PASS. Installed under `/home/heungtae/.agents/skills/`, including owned shared runtime. [Installation evidence](codex-skills-global-install.txt). Temporary Project installations were recognized and uninstalled; unrelated files were preserved.
+- GitHub writes/merge/auto-merge/queue/protected push/Issue close during this validation: **0**. Static executable scan includes codex-skills, scripts, Workflows and libraries; existing allowlisted GitHub operations and Mock never-merge/resolve-failure tests remain intact.
+
+### Actual interface differences resolved
+
+1. PATH `cao` still fails importing cli_agent_orchestrator. Use `CAO_BIN=/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/cao`. No unrelated global CAO installation was changed.
+2. CAO 2.5.0 ScriptSpec returned by get has `path/source/inputs`, without a `mode` field; states are lowercase. Regression tests use the actual shapes.
+3. CAO retained script `result` currently omits emitted business output. The adapter reads existing Workflow-owned `workflow-data/<identity-hash>/result.json`, validates schema and exact run_id, and marks result_source. Remote-only/unavailable artifacts return UNVERIFIED. Captured actual absence is in [debug evidence](codex-skills-live-debug.txt); RED/GREEN regression exists.
+4. Current Codex `--profile NAME` reads CODEX_HOME/NAME.config.toml. Profile-file validation was added without removing legacy profile-table support. The live runner performs actual native CLI probes before enablement; an unresolvable/unsafe executor blocks execution. Documentation now distinguishes current and legacy formats.
+5. CLI submission is asynchronous `--detach --run-id --input ... --json`; status/result are read-only, resume is blocking and may halt for human step decisions. The runner never invents wait options or blindly repeats writes.
+
+### Remaining operational acceptance
+
+- Dedicated authenticated provider environment and real Spec Kit skills have not been qualified through Skills. Disposable smoke profiles have no model authentication and fixture Spec Kit files; they are not live development evidence.
+- Actual model implicit natural-language selection and explicit conversational completion are UNVERIFIED. Metadata, deterministic command mapping and real CLI discovery pass; implicit selection is best effort per official docs.
+- Actual live Planner/Developer/Reviewer and GitHub publication/push/reply/Resolve E2E through these Skills remain UNVERIFIED. External writes require separate explicit user approval; repository validation does not perform them.
+- Changed files not supported by retained evidence remain `changed_files_verified=false`; unavailable thread counts are null. Successful live PR results use read-only SHA/open-state/thread/CI confirmation; failures are never promoted to success.
+
+### Changed file inventory and examples
+
+- Added `codex-skills/{cao-spec,cao-dev,cao-issue,cao-pr-review,cao-pr-apply}/SKILL.md` and each bundled `scripts/run.py`.
+- Added `workflow_lib/codex_skills.py`, `workflow_lib/skill_installation.py`, `contracts/codex-skill-result.schema.json`.
+- Added `scripts/{install-codex-skills.sh,uninstall-codex-skills.sh,validate-codex-skills.sh,codex-skills-admin.py,cao-skill-runner.py,verify-codex-skills.py}`.
+- Added `tests/test_codex_skills.py` and `tests/test_codex_skill_install.py`; extended existing installer/isolation/static scan without weakening old tests or Workflow responsibilities.
+- Updated `AGENTS.md`, `README.md`, `pyproject.toml` (development-only YAML validation dependency), `workflow_lib/{installation.py,isolation.py,merge_guard.py}`, `docs/usage.md`, this report and generated local-server log.
+- Added [Skills guide](codex-skills.md), [persistent Sprint progress](implementation-progress.md), and `docs/codex-skills-*.txt/.log` RED/GREEN and actual integration artifacts. Source code, schema and tests are the execution contracts.
+
+In a configured target Codex session: `$cao-dev dev run 001-feature`; after session restart: `$cao-dev dev status RUN_ID`. Other examples: `spec plan "Kafka failover"`, `issue run 123`, `pr review 45`, `pr apply 45`. Setup and exact direct-run syntax are in the Skills guide.

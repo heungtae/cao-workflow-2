@@ -1,0 +1,26 @@
+.....F.                                                                  [100%]
+=================================== FAILURES ===================================
+_ SkillInstallTests.test_installed_launcher_blocks_runtime_and_hash_manifest_tampering _
+
+self = <test_codex_skill_install.SkillInstallTests testMethod=test_installed_launcher_blocks_runtime_and_hash_manifest_tampering>
+
+    def test_installed_launcher_blocks_runtime_and_hash_manifest_tampering(self):
+        import hashlib
+
+        manifest = install_skills(ROOT, self.dest)
+        module = next(self.dest / name for name in manifest["files"] if name.endswith("workflow_lib/codex_skills.py"))
+        module.write_text("raise RuntimeError('tampered ran')")
+        runtime = module.parents[1]
+        bundle = runtime / "bundle.json"
+        hashes = json.loads(bundle.read_text())
+        hashes["workflow_lib/codex_skills.py"] = hashlib.sha256(module.read_bytes()).hexdigest()
+        bundle.write_text(json.dumps(hashes, sort_keys=True))
+        proc = subprocess.run([str(ROOT / ".venv/bin/python"), str(self.dest / "cao-dev/scripts/run.py"), "--help"], capture_output=True, text=True)
+        self.assertNotEqual(proc.returncode, 0)
+>       self.assertIn("runtime changed", proc.stderr)
+E       AssertionError: 'runtime changed' not found in 'Traceback (most recent call last):\n  File "/tmp/tmpf2o1q8vq/project space/.agents/skills/cao-dev/scripts/run.py", line 22, in <module>\n    from workflow_lib.codex_skills import main  # noqa: E402\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/tmp/tmpf2o1q8vq/project space/.agents/skills/.cao-codex-runtime/5e6bbd245bfdc7d54d782ebf633c87adb9fb4f2ada1376993252245597ecd8b9/workflow_lib/codex_skills.py", line 1, in <module>\n    raise RuntimeError(\'tampered ran\')\nRuntimeError: tampered ran\n'
+
+tests/test_codex_skill_install.py:121: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_codex_skill_install.py::SkillInstallTests::test_installed_launcher_blocks_runtime_and_hash_manifest_tampering
+1 failed, 6 passed in 1.03s

@@ -2,6 +2,30 @@
 
 Reusable CAO Python workflows for Spec Kit planning, approved-spec TDD, independent review, and policy-bound GitHub Issue/PR automation. Automation stops at `AWAITING_HUMAN_MERGE`. Humans merge PRs and close Issues.
 
+## Codex CLI Skills
+
+Five Skills connect Codex requests to existing Workflows and track durable Run IDs, bounded
+query recovery, cancellation/resume and contract-validated business results.
+Install globally or into a target Git project:
+
+```bash
+./scripts/install-codex-skills.sh --global
+./scripts/validate-codex-skills.sh --global
+# Alternative: --project /absolute/path/to/project
+```
+
+In the target project's Codex conversation: `spec plan "requirements"`,
+`dev run 001-feature`, `issue run 123`, `pr review 45`, `pr apply 45`.
+Explicit invocation is also supported: `$cao-dev dev run 001-feature`.
+Use `dev status RUN_ID` after a session restart. CAO/server configuration, approved specs and
+operator config must be ready; GitHub writes require explicit authorization.
+See [the Skills guide](docs/codex-skills.md) for setup, current Codex profile files, updates,
+safe uninstall, command examples and troubleshooting.
+
+Actual Codex discovery, native sandbox probes and CAO dry-run submissions are tested locally.
+Model selection and live Agent/GitHub execution through Skills remain unverified;
+see [sprint evidence](docs/validation-report.md) and [remaining work](docs/implementation-progress.md).
+
 ## Five-minute local verification
 
 Python 3.11+, a compatible CAO 2.5.0 install, `gh`, Git and Linux bubblewrap are required for live use. Validation needs a local CAO server. Existing CAO configuration is preserved.

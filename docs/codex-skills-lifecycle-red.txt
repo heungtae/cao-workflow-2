@@ -1,0 +1,121 @@
+F.F......F.F.....                                       [100%]
+=================================== FAILURES ===================================
+_______ SkillTests.test_actual_lowercase_cao_state_and_script_get_shape ________
+
+self = <test_codex_skills.SkillTests testMethod=test_actual_lowercase_cao_state_and_script_get_shape>
+
+    def test_actual_lowercase_cao_state_and_script_get_shape(self):
+        original = self.cao.call
+        def actual_get(command, *args, **kwargs):
+            value = original(command, *args, **kwargs)
+            if command == "get":
+                value.pop("mode")
+                value["path"] = "/cao/workflows/" + args[0] + ".py"
+                value["source"] = "INPUTS = {}"
+            return value
+        self.cao.call = actual_get
+        self.cao.state = "running"
+>       value = self.start()
+                ^^^^^^^^^^^^
+
+tests/test_codex_skills.py:250:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/test_codex_skills.py:110: in start
+    return self.runner.start(parse_request(command or ["dev", "run", self.feature]), **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <workflow_lib.codex_skills.SkillRunner object at 0x71ea228ee270>
+request = Request(skill='cao-dev', workflow='development-orchestrator', verb='run', target='001-feature', requirement='')
+settings = {}, execute = False, authorized = False
+run_id = 'cao-3d7befdbaf8e4c0fb49c30d600213c85'
+
+    def start(self, request, *, settings=None, execute=False, authorized=False, run_id=None):
+        settings = read_settings(self.root) if settings is None else settings
+        with lock(self.store):
+            inputs = self.prepare(request, settings, execute, authorized)
+            identity = hashlib.sha256(
+                json.dumps(
+                    [
+                        request.workflow,
+                        str(self.root),
+                        request.target or request.requirement,
+                        inputs,
+                    ],
+                    sort_keys=True,
+                ).encode()
+            ).hexdigest()
+            if run_id and safe(self.store, identifier(run_id) + ".json").exists():
+                raise ValueError("Run ID collision: inspect existing run")
+            for path in self.store.glob("*.json"):
+                record = self.load(path.stem)
+                if record["identity"] == identity:
+                    return self.status(record["run_id"])
+            run_id = identifier(run_id) if run_id else "cao-" + uuid.uuid4().hex
+            try:
+                self.cao.call("status", run_id)
+            except CaoError as error:
+                if not error.missing:
+                    raise error
+            else:
+                raise ValueError("Run ID collision on CAO server")
+            spec = self.cao.call("get", request.workflow)
+            if spec.get("name") != request.workflow or spec.get("mode") != "script":
+>               raise ValueError("unexpected CAO workflow contract")
+E               ValueError: unexpected CAO workflow contract
+
+workflow_lib/codex_skills.py:356: ValueError
+___ SkillTests.test_changed_config_cannot_launch_second_run_for_same_feature ___
+
+self = <test_codex_skills.SkillTests testMethod=test_changed_config_cannot_launch_second_run_for_same_feature>
+
+    def test_changed_config_cannot_launch_second_run_for_same_feature(self):
+        config = self.root / "config.json"
+        config.write_text('{}')
+        first = self.start(settings={"config": "config.json"})
+        config.write_text('{"max_agent_steps": 5}')
+>       with self.assertRaises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: ValueError not raised
+
+tests/test_codex_skills.py:282: AssertionError
+_ SkillTests.test_real_gate_evidence_success_then_failed_final_gate_is_unverified _
+
+self = <test_codex_skills.SkillTests testMethod=test_real_gate_evidence_success_then_failed_final_gate_is_unverified>
+
+    def test_real_gate_evidence_success_then_failed_final_gate_is_unverified(self):
+        run_id = self.start()["run_id"]
+        self.cao.state = "COMPLETED"
+        gates = [{"argv": ["pytest"], "exit_code": 0, "log": "refactor-test.log", "tests": 2, "failures": [], "errors": []},
+                 {"argv": ["ruff"], "exit_code": 0, "log": "refactor-static.log", "tests": 0, "failures": [], "errors": []},
+                 {"argv": ["coverage"], "exit_code": 0, "log": "refactor-coverage.log", "tests": 0, "failures": [], "errors": []},
+                 {"review": {"status": "PASS", "findings": []}}]
+        self.cao.output = result("COMPLETED", run_id=run_id, evidence=gates)
+        self.assertEqual(self.runner.status(run_id)["status"], "COMPLETED")
+        self.cao.output["evidence"].insert(3, {**gates[0], "exit_code": 1, "failures": ["bad"], "log": "final-test.log"})
+>       self.assertEqual(self.runner.status(run_id)["status"], "UNVERIFIED")
+E       AssertionError: 'COMPLETED' != 'UNVERIFIED'
+E       - COMPLETED
+E       + UNVERIFIED
+
+tests/test_codex_skills.py:266: AssertionError
+_ SkillTests.test_resume_never_uses_stale_failed_snapshot_after_connection_loss _
+
+self = <test_codex_skills.SkillTests testMethod=test_resume_never_uses_stale_failed_snapshot_after_connection_loss>
+
+    def test_resume_never_uses_stale_failed_snapshot_after_connection_loss(self):
+        run_id = self.start()["run_id"]
+        self.cao.state = "FAILED"
+        self.runner.status(run_id)
+        self.cao.query_failures = 1
+>       with self.assertRaises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: ValueError not raised
+
+tests/test_codex_skills.py:273: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_codex_skills.py::SkillTests::test_actual_lowercase_cao_state_and_script_get_shape
+FAILED tests/test_codex_skills.py::SkillTests::test_changed_config_cannot_launch_second_run_for_same_feature
+FAILED tests/test_codex_skills.py::SkillTests::test_real_gate_evidence_success_then_failed_final_gate_is_unverified
+FAILED tests/test_codex_skills.py::SkillTests::test_resume_never_uses_stale_failed_snapshot_after_connection_loss
+4 failed, 13 passed, 17 subtests passed in 0.64s

@@ -1,0 +1,63 @@
+...............F.........                           [100%]
+=================================== FAILURES ===================================
+_ SkillTests.test_pr_completion_reports_authoritative_unresolved_count_and_sha_race _
+
+self = <test_codex_skills.SkillTests testMethod=test_pr_completion_reports_authoritative_unresolved_count_and_sha_race>
+
+    def test_pr_completion_reports_authoritative_unresolved_count_and_sha_race(self):
+        from unittest.mock import Mock
+
+        run_id = self.start()["run_id"]
+        record = self.runner.load(run_id)
+        record.update(workflow="pr-review")
+        record["inputs"]["dry_run"] = False
+        record["inputs"]["policy"] = str(self.root / "policy.json")
+        (self.root / "policy.json").write_text('{"repo":"owner/repo","repositories":["owner/repo"]}')
+        record["inputs"]["pr_number"] = 45
+        self.runner.save(record)
+        self.cao.runs[run_id] = "pr-review"
+        self.cao.state = "COMPLETED"
+        self.cao.output = result("PASS", run_id=run_id, repo="owner/repo", pr_number=45, head_sha="a" * 40,
+                                 evidence=[{"status": "PASS", "head_sha": "a" * 40, "findings": []}])
+        api = Mock()
+        api.pr.return_value = {"state": "OPEN", "head_sha": "a" * 40}
+        api.threads.return_value = [{"is_resolved": False}, {"is_resolved": True}]
+>       with patch("workflow_lib.codex_skills.GitHub", return_value=api) as factory:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codex_skills.py:505:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/usr/lib/python3.14/unittest/mock.py:1510: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <unittest.mock._patch object at 0x7128a74368b0>
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+
+        original = DEFAULT
+        local = False
+
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+
+        if not self.create and original is DEFAULT:
+>           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: <module 'workflow_lib.codex_skills' from '/home/heungtae/develop/ai-agent/cao-workflow-2/workflow_lib/codex_skills.py'> does not have the attribute 'GitHub'
+
+/usr/lib/python3.14/unittest/mock.py:1480: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_codex_skills.py::SkillTests::test_pr_completion_reports_authoritative_unresolved_count_and_sha_race
+1 failed, 24 passed, 21 subtests passed in 0.92s

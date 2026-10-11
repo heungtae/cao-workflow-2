@@ -1,0 +1,44 @@
+.......F................                            [100%]
+=================================== FAILURES ===================================
+_ SkillTests.test_current_codex_profile_files_validated_and_native_probe_required _
+
+self = <test_codex_skills.SkillTests testMethod=test_current_codex_profile_files_validated_and_native_probe_required>
+
+    def test_current_codex_profile_files_validated_and_native_probe_required(self):
+        from workflow_lib.codex_skills import verify_executor
+        from workflow_lib.isolation import codex_profiles_safe
+
+        home = Path(self.tmp.name) / "codex"
+        home.mkdir()
+        config = home / "config.toml"
+        config.write_text("")
+        for name, mode in (("readonly", "read-only"), ("write", "workspace-write")):
+            (home / f"cao-workflows-{name}.config.toml").write_text(f'approval_policy="never"\nsandbox_mode="{mode}"\n[sandbox_workspace_write]\nnetwork_access=false\nwritable_roots=[]\n')
+>       self.assertTrue(codex_profiles_safe(config))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codex_skills.py:477:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+config_path = PosixPath('/tmp/tmpv0v4xrgr/codex/config.toml')
+
+    def codex_profiles_safe(config_path):
+        import tomllib
+
+        config = tomllib.loads(Path(config_path).read_text())
+        if config.get("mcp_servers") or config.get("sandbox_workspace_write", {}).get("writable_roots"):
+            raise ValueError("dedicated Codex home must not expose MCP servers or extra writable roots")
+        values = config.get("profiles", {})
+        for name, mode in [
+            ("cao-workflows-readonly", "read-only"),
+            ("cao-workflows-write", "workspace-write"),
+        ]:
+            profile = values.get(name, {})
+            if profile.get("sandbox_mode") != mode or profile.get("approval_policy") != "never":
+>               raise ValueError("dedicated Codex sandbox profiles are missing or unsafe")
+E               ValueError: dedicated Codex sandbox profiles are missing or unsafe
+
+workflow_lib/isolation.py:56: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_codex_skills.py::SkillTests::test_current_codex_profile_files_validated_and_native_probe_required
+1 failed, 23 passed, 21 subtests passed in 0.94s

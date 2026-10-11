@@ -1,0 +1,17 @@
+F....................                                   [100%]
+=================================== FAILURES ===================================
+_ SkillTests.test_actual_cao_retained_result_omits_output_use_owned_durable_artifact _
+
+self = <test_codex_skills.SkillTests testMethod=test_actual_cao_retained_result_omits_output_use_owned_durable_artifact>
+
+    def test_actual_cao_retained_result_omits_output_use_owned_durable_artifact(self):
+        import hashlib
+
+>       self.runner = SkillRunner(self.root, self.cao, endpoint="fixture://cao", cao_home=Path(self.tmp.name) / "cao-home")
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: SkillRunner.__init__() got an unexpected keyword argument 'cao_home'
+
+tests/test_codex_skills.py:355: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_codex_skills.py::SkillTests::test_actual_cao_retained_result_omits_output_use_owned_durable_artifact
+1 failed, 20 passed, 17 subtests passed in 0.70s

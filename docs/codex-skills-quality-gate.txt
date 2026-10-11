@@ -1,0 +1,9 @@
+cao-dev 0 Skill is valid!
+cao-issue 0 Skill is valid!
+cao-pr-apply 0 Skill is valid!
+cao-pr-review 0 Skill is valid!
+cao-spec 0 Skill is valid!
+All checks passed!
+72 files already formatted
+Merge/API/queue/protected push executable scan PASS; bash syntax PASS; ShellCheck unavailable.
+{"source_skills": ["cao-spec", "cao-dev", "cao-issue", "cao-pr-review", "cao-pr-apply"]}

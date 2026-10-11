@@ -51,7 +51,13 @@ def codex_profiles_safe(config_path):
         ("cao-workflows-readonly", "read-only"),
         ("cao-workflows-write", "workspace-write"),
     ]:
-        profile = values.get(name, {})
+        profile_path = Path(config_path).parent / (name + ".config.toml")
+        # Codex 0.162+ --profile loads NAME.config.toml; retain older config support.
+        profile = (
+            tomllib.loads(profile_path.read_text())
+            if profile_path.exists()
+            else values.get(name, {})
+        )
         if profile.get("sandbox_mode") != mode or profile.get("approval_policy") != "never":
             raise ValueError("dedicated Codex sandbox profiles are missing or unsafe")
         if profile.get("mcp_servers") or profile.get("sandbox_workspace_write", {}).get(

@@ -1,0 +1,18 @@
+..................F........                         [100%]
+=================================== FAILURES ===================================
+________ SkillTests.test_registry_symlink_cannot_write_outside_project _________
+
+self = <test_codex_skills.SkillTests testMethod=test_registry_symlink_cannot_write_outside_project>
+
+    def test_registry_symlink_cannot_write_outside_project(self):
+        outside = Path(self.tmp.name) / "outside"
+        outside.mkdir()
+        (self.root / ".cao-runs").symlink_to(outside, target_is_directory=True)
+>       with self.assertRaises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: ValueError not raised
+
+tests/test_codex_skills.py:152: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_codex_skills.py::SkillTests::test_registry_symlink_cannot_write_outside_project
+1 failed, 26 passed, 21 subtests passed in 0.93s

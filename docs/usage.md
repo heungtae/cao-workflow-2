@@ -6,6 +6,11 @@ Use a **dedicated Codex home/account for the CAO server**, with no GitHub creden
 
 Create these named profiles in that dedicated `CODEX_HOME/config.toml`. Start the CAO server with that CODEX_HOME, and pass its absolute config path through operator config `codex_config_path` (CAO does not forward CODEX_HOME into script processes):
 
+The following profile-table example applies to older Codex releases. The installed Codex 0.162.1
+loads `cao-workflows-readonly.config.toml` and `cao-workflows-write.config.toml` from CODEX_HOME
+for `--profile`. Use the [current profile-file setup](codex-skills.md#설치된-codex의-격리-프로필)
+for this version; the Skills runner tests both actual native executors before enabling live work.
+
 ```toml
 [profiles.cao-workflows-readonly]
 approval_policy = "never"

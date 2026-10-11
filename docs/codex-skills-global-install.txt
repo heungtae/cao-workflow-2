@@ -1,0 +1,23 @@
+{"destination": "/home/heungtae/.agents/skills", "owned_files": 43, "dry_run": true}
+{"destination": "/home/heungtae/.agents/skills", "owned_files": 43, "dry_run": false}
+{"destination": "/home/heungtae/.agents/skills", "skills": ["cao-spec", "cao-dev", "cao-issue", "cao-pr-review", "cao-pr-apply"], "owned_files": 43}
+usage: run.py [-h] [--project PROJECT] [--cao-bin CAO_BIN] [--execute]
+              [--authorize] [--run-id RUN_ID] [--polls POLLS]
+              [--interval INTERVAL]
+              command [command ...]
+
+Thin Codex invocation adapter. CAO owns execution and all business loops.
+
+positional arguments:
+  command
+
+options:
+  -h, --help           show this help message and exit
+  --project PROJECT
+  --cao-bin CAO_BIN
+  --execute
+  --authorize
+  --run-id RUN_ID
+  --polls POLLS
+  --interval INTERVAL
+{"actual_user_global_discovery": [{"name": "cao-dev", "path": "/home/heungtae/.agents/skills/cao-dev/SKILL.md", "enabled": true, "scope": "user"}, {"name": "cao-issue", "path": "/home/heungtae/.agents/skills/cao-issue/SKILL.md", "enabled": true, "scope": "user"}, {"name": "cao-pr-apply", "path": "/home/heungtae/.agents/skills/cao-pr-apply/SKILL.md", "enabled": true, "scope": "user"}, {"name": "cao-pr-review", "path": "/home/heungtae/.agents/skills/cao-pr-review/SKILL.md", "enabled": true, "scope": "user"}, {"name": "cao-spec", "path": "/home/heungtae/.agents/skills/cao-spec/SKILL.md", "enabled": true, "scope": "user"}]}

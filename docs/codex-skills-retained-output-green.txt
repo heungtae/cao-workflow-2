@@ -1,0 +1,22 @@
+F....................                                   [100%]
+=================================== FAILURES ===================================
+_ SkillTests.test_actual_cao_retained_result_omits_output_use_owned_durable_artifact _
+
+self = <test_codex_skills.SkillTests testMethod=test_actual_cao_retained_result_omits_output_use_owned_durable_artifact>
+
+    def test_actual_cao_retained_result_omits_output_use_owned_durable_artifact(self):
+        import hashlib
+
+        self.runner = SkillRunner(self.root, self.cao, endpoint="fixture://cao", cao_home=Path(self.tmp.name) / "cao-home")
+        run_id = self.start()["run_id"]
+        self.cao.state = "completed"
+        directory = self.runner.cao_home / "workflow-data" / hashlib.sha256(run_id.encode()).hexdigest()[:20]
+        directory.mkdir(parents=True)
+>       (directory / "result.json").write_text(json.dumps(result("DRY_RUN", run_id=run_id)))
+                                               ^^^^
+E       NameError: name 'json' is not defined. Did you forget to import 'json'?
+
+tests/test_codex_skills.py:360: NameError
+=========================== short test summary info ============================
+FAILED tests/test_codex_skills.py::SkillTests::test_actual_cao_retained_result_omits_output_use_owned_durable_artifact
+1 failed, 20 passed, 17 subtests passed in 0.71s

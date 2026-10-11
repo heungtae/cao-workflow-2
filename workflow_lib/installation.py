@@ -77,11 +77,23 @@ def inventory(source, home=None):
     return files
 
 
-def _install_locked(source, home, *, dry_run=False, force=False, profile_mode="copy", check):
+def _install_locked(
+    source,
+    home,
+    *,
+    dry_run=False,
+    force=False,
+    profile_mode="copy",
+    check,
+    layout=None,
+    manifest_name=MANIFEST,
+    transaction_name=TRANSACTION,
+    retained_prefixes=("workflows/.cao-workflows-bundles/",),
+):
     if profile_mode != "copy":
         raise ValueError("link mode unsupported: immutable deployed snapshot required")
-    files = inventory(source, home)
-    manifest_path = safe(home, MANIFEST)
+    files = dict(layout) if layout is not None else inventory(source, home)
+    manifest_path = safe(home, manifest_name)
     old = json.loads(manifest_path.read_text()) if manifest_path.exists() else {"files": {}}
     new = {"version": 1, "release": "1.0.0", "cao_compatibility": "2.5.0", "files": {}}
     before = {}
@@ -97,10 +109,12 @@ def _install_locked(source, home, *, dry_run=False, force=False, profile_mode="c
             if prior
             else (base64.b64encode(current).decode() if current is not None else None)
         )
+        if prior and current is not None and digest(path) != prior["sha256"]:
+            backup = base64.b64encode(current).decode()
         new["files"][relative] = {"sha256": hashlib.sha256(data).hexdigest(), "backup": backup}
     # Retain immutable dependency versions for CAO's frozen resume snapshots.
     for relative, entry in old["files"].items():
-        if relative not in files and relative.startswith("workflows/.cao-workflows-bundles/"):
+        if relative not in files and relative.startswith(retained_prefixes):
             path = safe(home, relative)
             if not path.is_file() or digest(path) != entry["sha256"]:
                 raise ValueError("retained resume bundle modified/missing")
@@ -118,9 +132,9 @@ def _install_locked(source, home, *, dry_run=False, force=False, profile_mode="c
         if (path.read_bytes() if path.exists() else None) != content:
             raise ValueError("installation changed during preflight")
     old_manifest = manifest_path.read_bytes() if manifest_path.exists() else None
-    prepared = {**before, MANIFEST: old_manifest}
-    after = {**files, MANIFEST: json.dumps(new, sort_keys=True, indent=2).encode()}
-    begin(home, prepared, after)
+    prepared = {**before, manifest_name: old_manifest}
+    after = {**files, manifest_name: json.dumps(new, sort_keys=True, indent=2).encode()}
+    begin(home, prepared, after, transaction_name=transaction_name)
     try:
         for relative, data in files.items():
             atomic(safe(home, relative), data)
@@ -137,14 +151,16 @@ def _install_locked(source, home, *, dry_run=False, force=False, profile_mode="c
             manifest_path.unlink(missing_ok=True)
         else:
             atomic(manifest_path, old_manifest)
-        safe(home, TRANSACTION).unlink(missing_ok=True)
+        safe(home, transaction_name).unlink(missing_ok=True)
         raise
-    safe(home, TRANSACTION).unlink(missing_ok=True)
+    safe(home, transaction_name).unlink(missing_ok=True)
     return new
 
 
-def _uninstall_locked(home, *, dry_run=False, force=False):
-    manifest_path = safe(home, MANIFEST)
+def _uninstall_locked(
+    home, *, dry_run=False, force=False, manifest_name=MANIFEST, transaction_name=TRANSACTION
+):
+    manifest_path = safe(home, manifest_name)
     if not manifest_path.exists():
         return []
     data = json.loads(manifest_path.read_text())
@@ -165,20 +181,20 @@ def _uninstall_locked(home, *, dry_run=False, force=False):
             else None
             for path, entry in paths
         }
-        before[MANIFEST] = manifest_path.read_bytes()
-        after[MANIFEST] = None
-        begin(home, before, after)
+        before[manifest_name] = manifest_path.read_bytes()
+        after[manifest_name] = None
+        begin(home, before, after, transaction_name=transaction_name)
         for path, entry in paths:
             if entry["backup"] is not None:
                 atomic(path, base64.b64decode(entry["backup"], validate=True))
             else:
                 path.unlink(missing_ok=True)
         manifest_path.unlink()
-        safe(home, TRANSACTION).unlink(missing_ok=True)
+        safe(home, transaction_name).unlink(missing_ok=True)
     return [str(path) for path, _ in paths]
 
 
-def begin(home, before, after):
+def begin(home, before, after, *, transaction_name=TRANSACTION):
     records = {
         relative: {
             "before": base64.b64encode(content).decode() if content is not None else None,
@@ -188,11 +204,11 @@ def begin(home, before, after):
         }
         for relative, content in before.items()
     }
-    atomic(safe(home, TRANSACTION), json.dumps(records, sort_keys=True).encode())
+    atomic(safe(home, transaction_name), json.dumps(records, sort_keys=True).encode())
 
 
-def recover(home):
-    journal = safe(home, TRANSACTION)
+def recover(home, *, transaction_name=TRANSACTION):
+    journal = safe(home, transaction_name)
     if not journal.exists():
         return
     records = json.loads(journal.read_text())
@@ -218,25 +234,61 @@ def recover(home):
     journal.unlink()
 
 
-def install(source, home, *, dry_run=False, force=False, profile_mode="copy", check):
+def install(
+    source,
+    home,
+    *,
+    dry_run=False,
+    force=False,
+    profile_mode="copy",
+    check,
+    layout=None,
+    manifest_name=MANIFEST,
+    transaction_name=TRANSACTION,
+    retained_prefixes=("workflows/.cao-workflows-bundles/",),
+):
+    options = dict(
+        layout=layout,
+        manifest_name=manifest_name,
+        transaction_name=transaction_name,
+        retained_prefixes=retained_prefixes,
+    )
     if dry_run:
-        if safe(home, TRANSACTION).exists():
+        if safe(home, transaction_name).exists():
             raise ValueError("incomplete transaction needs non-dry-run recovery")
         return _install_locked(
-            source, home, dry_run=True, force=force, profile_mode=profile_mode, check=check
+            source,
+            home,
+            dry_run=True,
+            force=force,
+            profile_mode=profile_mode,
+            check=check,
+            **options,
         )
     with lock(home):
-        recover(home)
-        return _install_locked(source, home, force=force, profile_mode=profile_mode, check=check)
+        recover(home, transaction_name=transaction_name)
+        return _install_locked(
+            source, home, force=force, profile_mode=profile_mode, check=check, **options
+        )
 
 
-def uninstall(home, *, dry_run=False, force=False):
+def uninstall(
+    home, *, dry_run=False, force=False, manifest_name=MANIFEST, transaction_name=TRANSACTION
+):
     if not home.exists():
         return []
     if dry_run:
-        if safe(home, TRANSACTION).exists():
+        if safe(home, transaction_name).exists():
             raise ValueError("incomplete transaction needs non-dry-run recovery")
-        return _uninstall_locked(home, dry_run=True, force=force)
+        return _uninstall_locked(
+            home,
+            dry_run=True,
+            force=force,
+            manifest_name=manifest_name,
+            transaction_name=transaction_name,
+        )
     with lock(home):
-        recover(home)
-        return _uninstall_locked(home, force=force)
+        recover(home, transaction_name=transaction_name)
+        return _uninstall_locked(
+            home, force=force, manifest_name=manifest_name, transaction_name=transaction_name
+        )
