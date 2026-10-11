@@ -1,6 +1,6 @@
 ---
 name: cao-dev
-description: "Run approved CAO feature development: dev run FEATURE, dev status/resume/cancel RUN_ID, or 승인된 기능 개발 실행/상태 조회. Calls development-orchestrator and tracks its retained result."
+description: "Run approved CAO feature development: dev run FEATURE, dev status/resume/cancel RUN_ID, or natural-language requests to execute or track an approved feature. Calls development-orchestrator and tracks its retained result."
 ---
 
 # cao-dev

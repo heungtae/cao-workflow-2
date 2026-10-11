@@ -1,6 +1,6 @@
 ---
 name: cao-pr-apply
-description: "Apply CAO PR inline review fixes: pr apply NUMBER, pr status RUN_ID, or PR 리뷰 코멘트 수정/답글/Thread Resolve. Calls pr-apply to fix, test, push, reply and conditionally resolve eligible threads."
+description: "Apply CAO PR inline review fixes: pr apply NUMBER, pr status RUN_ID, or natural-language requests to fix review comments, reply, and resolve threads. Calls pr-apply to fix, test, push, reply and conditionally resolve eligible threads."
 ---
 
 # cao-pr-apply

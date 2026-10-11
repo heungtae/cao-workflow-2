@@ -129,3 +129,16 @@ See [GitHub live validation](github-live-validation.md) for actual repository/Is
 - Added [Skills guide](codex-skills.md), [persistent Sprint progress](implementation-progress.md), and `docs/codex-skills-*.txt/.log` RED/GREEN and actual integration artifacts. Source code, schema and tests are the execution contracts.
 
 In a configured target Codex session: `$cao-dev dev run 001-feature`; after session restart: `$cao-dev dev status RUN_ID`. Other examples: `spec plan "Kafka failover"`, `issue run 123`, `pr review 45`, `pr apply 45`. Setup and exact direct-run syntax are in the Skills guide.
+
+### README installation and usage reorder (2026-10-11)
+
+- Reorganized the root README into environment/worker setup, server and Workflow installation, Global/Project Skills installation, target project configuration, planning/human approval/development, status/recovery, validation, and update/removal.
+- Checked examples against the current administration scripts and installed CAO CLI help. README validation passed for 15 local links/anchors, 11 Bash blocks (`bash -n`), one JSON block, and all referenced script paths; `git diff --check` passed.
+- Documentation-only change: full automated tests and live Workflow/GitHub E2E were not rerun. Existing operational acceptance remains LIVE_UNVERIFIED; no external GitHub writes were performed.
+
+### English documentation conversion (2026-10-11)
+
+- Translated README, the Skills guide, both build specifications, and all five Skill descriptions into English; updated incoming section anchors in README and usage. Added the repository's English documentation instruction to AGENTS.md.
+- Verified 119 documentation artifacts contain no Korean text. Across 33 Markdown files, 44 local links/anchors, 18 Bash blocks (`bash -n`), six JSON blocks, and three TOML blocks passed validation. Both specifications, README, and the Skills guide retain their original line counts, heading levels, list/checklist/table/fence structure, and existing English/code except translated anchors.
+- `./scripts/validate-codex-skills.sh`: PASS for all five Skills. `.venv/bin/python -m pytest -q tests/test_codex_skills.py tests/test_codex_skill_install.py tests/test_never_merge.py`: 40 passed, 27 subtests passed. After final description wording edits, the metadata/command mapping check passed again: one test and six subtests. `git diff --check`: PASS.
+- No implementation or test files were changed. The full regression suite and live model/GitHub E2E were not rerun; operational acceptance remains LIVE_UNVERIFIED. No external GitHub writes were performed.

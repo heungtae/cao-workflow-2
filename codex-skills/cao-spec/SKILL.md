@@ -1,6 +1,6 @@
 ---
 name: cao-spec
-description: "Plan and update CAO specs: spec plan \"requirements\", spec update FEATURE \"changes\", or 요구사항 명세 계획/수정. Runs spec-planner or spec-update and presents artifacts for human review."
+description: "Plan and update CAO specs: spec plan \"requirements\", spec update FEATURE \"changes\", or natural-language requests to plan or update requirement specifications. Runs spec-planner or spec-update and presents artifacts for human review."
 ---
 
 # cao-spec

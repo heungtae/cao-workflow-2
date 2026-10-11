@@ -1,100 +1,223 @@
 # CAO Workflows
 
-Reusable CAO Python workflows for Spec Kit planning, approved-spec TDD, independent review, and policy-bound GitHub Issue/PR automation. Automation stops at `AWAITING_HUMAN_MERGE`. Humans merge PRs and close Issues.
+Reusable CAO Workflows for Spec Kit planning, approved-spec TDD, independent review, and GitHub Issue/PR processing. Five Codex CLI Skills connect user requests to existing Workflows and track Run IDs, execution status, and completion evidence.
 
-## Codex CLI Skills
+Install in this order: **prepare the execution environment → start the CAO server → install Workflows → install Codex Skills → configure the target project**. Use the system in this order: **plan specs → human review and approval → development → verify results**.
 
-Five Skills connect Codex requests to existing Workflows and track durable Run IDs, bounded
-query recovery, cancellation/resume and contract-validated business results.
-Install globally or into a target Git project:
+Humans merge PRs and close Issues. Automation stops at `AWAITING_HUMAN_MERGE`; merge, auto-merge, merge queue, base/protected branch pushes, and protection bypass are prohibited. Remote GitHub changes require explicit user authorization.
 
-```bash
-./scripts/install-codex-skills.sh --global
-./scripts/validate-codex-skills.sh --global
-# Alternative: --project /absolute/path/to/project
-```
+## 1. Prepare the execution environment
 
-In the target project's Codex conversation: `spec plan "requirements"`,
-`dev run 001-feature`, `issue run 123`, `pr review 45`, `pr apply 45`.
-Explicit invocation is also supported: `$cao-dev dev run 001-feature`.
-Use `dev status RUN_ID` after a session restart. CAO/server configuration, approved specs and
-operator config must be ready; GitHub writes require explicit authorization.
-See [the Skills guide](docs/codex-skills.md) for setup, current Codex profile files, updates,
-safe uninstall, command examples and troubleshooting.
+Required tools: Python 3.11+, Git, Codex CLI, compatible CAO 2.5.0, GitHub CLI (`gh`), and Linux bubblewrap (`bwrap`). Live Agent execution also requires a verified isolated executor and separate Codex authentication.
 
-Actual Codex discovery, native sandbox probes and CAO dry-run submissions are tested locally.
-Model selection and live Agent/GitHub execution through Skills remain unverified;
-see [sprint evidence](docs/validation-report.md) and [remaining work](docs/implementation-progress.md).
-
-## Five-minute local verification
-
-Python 3.11+, a compatible CAO 2.5.0 install, `gh`, Git and Linux bubblewrap are required for live use. Validation needs a local CAO server. Existing CAO configuration is preserved.
+Run the following commands from this repository's root. Replace example absolute paths with your own paths.
 
 ```bash
 python3 -m venv .venv
-.venv/bin/python -m pip install 'cli-agent-orchestrator==2.5.0' 'jsonschema>=4.19,<5' 'pytest>=8,<10' 'ruff>=0.9,<1'
-# Full local gate: temporary server/home, Mock GitHub, no Agent execution.
-.venv/bin/python scripts/verify-local.py
-```
+.venv/bin/python -m pip install \
+  /absolute/path/to/cli-agent-orchestrator \
+  'jsonschema>=4.19,<5' 'pytest>=8,<10' 'ruff>=0.9,<1' 'PyYAML>=6,<7'
 
-This build was validated against CAO 2.5.0 **from a local source checkout**, rather than independently qualifying the PyPI wheel. To reproduce that exact environment, replace the CAO package argument with your compatible source checkout path. See [versions](docs/versions.md).
-
-## Install and lifecycle
-
-Start your CAO server using its verified `--host`/`--port` options, with the same `CAO_HOME_DIR` as the CLI. Select `CAO_BIN` if your PATH installation is broken. For a temporary example:
-
-```bash
-export CAO_HOME_DIR=/tmp/my-cao-workflows
+export WORKFLOW_ROOT="$(pwd)"
+export TARGET_PROJECT=/absolute/path/to/development-project
+export CAO_BIN="$WORKFLOW_ROOT/.venv/bin/cao"
+export CAO_WORKFLOWS_PYTHON="$WORKFLOW_ROOT/.venv/bin/python"
+export CAO_HOME_DIR=/absolute/path/to/cao-home
+export CAO_API_HOST=127.0.0.1
 export CAO_API_PORT=19889
-# Separate terminal:
-.venv/bin/cao-server --host 127.0.0.1 --port 19889
-
-./scripts/doctor.sh
-./scripts/install.sh --dry-run
-./scripts/install.sh
-./scripts/validate.sh
-# The target must already be a Git root with real Spec Kit skills installed.
-.venv/bin/cao workflow run spec-planner --run-id plan-001 \
-  --input project=/absolute/path/to/project --input feature=001-feature \
-  --input requirement='Describe the requested feature' --input dry_run=true
-.venv/bin/cao workflow status plan-001
-.venv/bin/cao workflow result plan-001
-./scripts/uninstall.sh --dry-run
-./scripts/uninstall.sh
+export WORKER_CODEX_HOME=/absolute/path/to/isolated-codex
 ```
 
-Dry run performs preflight without Agent or GitHub writes. `dry_run=false` starts Agents; configure the isolated Codex profiles described in [usage](docs/usage.md) first. GitHub mutations additionally require `authorized=true` and an operation/repository/feature-push policy. No such authorization can grant merge capabilities.
+The validated environment used **CAO 2.5.0 from a local source checkout and Codex CLI 0.162.1**. You may replace the source checkout argument with `cli-agent-orchestrator==2.5.0`, but the PyPI distribution was not independently qualified. If your existing CAO works, keep it and point `CAO_BIN` to its executable. See [verified versions and interfaces](docs/versions.md).
 
-For manual development, run planning, review and commit `spec.md`, `plan.md`, `tasks.md`, then explicitly approve their hash:
+Keep the CAO Worker Codex environment separate from interactive Codex. Prepare `config.toml`, model authentication, and the following two profiles in `$WORKER_CODEX_HOME`. Use a dedicated execution account without GitHub credentials, external MCP servers, or extra writable roots.
+
+| File | Settings |
+| --- | --- |
+| `cao-workflows-readonly.config.toml` | `approval_policy="never"`, `sandbox_mode="read-only"`, network disabled |
+| `cao-workflows-write.config.toml` | `approval_policy="never"`, `sandbox_mode="workspace-write"`, network disabled |
+
+Installation scripts do not create or overwrite user authentication or configuration. Follow the [Skills guide](docs/codex-skills.md#isolated-profiles-for-the-installed-codex-version) for **profile file contents and isolation settings** for the validated Codex version. Failed executor verification blocks Agent execution.
+
+## 2. Start the CAO server and install Workflows
+
+Set the same environment variables in a separate terminal and start the server. The server and CLI must share `CAO_HOME_DIR`, host, and port. Set the Worker `CODEX_HOME` for the server process.
 
 ```bash
-.venv/bin/python scripts/cli.py approve-spec --project /absolute/path/to/project \
-  --feature 001-feature --actor your-name
-.venv/bin/cao workflow run development-orchestrator --run-id dev-001 \
-  --input project=/absolute/path/to/project --input feature=001-feature \
-  --input config=/absolute/path/to/operator-config.json --input dry_run=false
-.venv/bin/cao workflow cancel dev-001
-.venv/bin/cao workflow resume dev-001
+CODEX_HOME="$WORKER_CODEX_HOME" "$WORKFLOW_ROOT/.venv/bin/cao-server" \
+  --host "$CAO_API_HOST" --port "$CAO_API_PORT"
 ```
 
-Resume can halt for manual recovery of an uncertain writing step; actual CLI supports `--decide STEP_ID=rerun|skip`. Reconcile filesystem/GitHub evidence first. Workflow-owned `status` and cooperative `cancel` are also available through `scripts/cli.py`; see usage for Issue identity keys.
+From the repository root in the first terminal, check the environment, preview installation, install, and validate in order. Workflow validation requires a running CAO server.
 
-## Workflows
+```bash
+CODEX_HOME="$WORKER_CODEX_HOME" ./scripts/doctor.sh --cao-home "$CAO_HOME_DIR"
+./scripts/install.sh --cao-home "$CAO_HOME_DIR" --dry-run
+./scripts/install.sh --cao-home "$CAO_HOME_DIR"
+./scripts/validate.sh --cao-home "$CAO_HOME_DIR"
+```
 
-| Entry | Responsibility |
-|---|---|
-| spec-planner / spec-plan | Installed Spec Kit skills → spec/plan/tasks → independent review; ends for approval |
-| spec-update | Explicit human request to update specs; never starts development |
-| tdd-developer / spec-tdd | Separate Test Agent RED → Developer GREEN/refactor → real configured quality gates |
+Check `cao_cli_ok` and `agent_config_ready` in the `doctor` output. These values do not verify model authentication or live Agent execution. Workflows and Agent profiles are installed into the selected CAO home; a manifest tracks ownership and backups.
+
+## 3. Install Codex Skills
+
+Workflow installation and Skill installation are separate. **Choose either Global or Project scope**. Neither installer starts the server or a Codex session automatically.
+
+Global installation uses `~/.agents/skills/` and is available across projects.
+
+```bash
+./scripts/install-codex-skills.sh --global --dry-run
+./scripts/install-codex-skills.sh --global
+./scripts/validate-codex-skills.sh --global
+```
+
+Project installation uses the target Git project's `.agents/skills/` directory.
+
+```bash
+./scripts/install-codex-skills.sh --project "$TARGET_PROJECT" --dry-run
+./scripts/install-codex-skills.sh --project "$TARGET_PROJECT"
+./scripts/validate-codex-skills.sh --project "$TARGET_PROJECT"
+```
+
+Installation stops on conflicts with an existing Skill of the same name or a modified owned file. Identical installation is idempotent; use the same command for updates. `--force` backs up and replaces existing files, so use it only after inspecting conflicts. Other Skills and the target project's `AGENTS.md` are preserved.
+
+## 4. Configure the target development project
+
+This repository deploys Workflows; `$TARGET_PROJECT` is the **existing Git root** where application code is developed. Prepare the following before planning or development.
+
+1. Initialize Spec Kit to create `.specify/`.
+2. Install real `speckit-specify`, `speckit-clarify`, `speckit-plan`, `speckit-tasks`, and `speckit-analyze` Skills in the target project's `.agents/skills/` or `.claude/skills/`. CAO Skills do not install Spec Kit for you.
+3. Set `codex_config_path` in `.cao/operator-config.json` to the **actual absolute path** of `$WORKER_CODEX_HOME/config.toml`, and configure the target's test, static-analysis, and coverage commands. Commands are argv arrays; required tests must produce JUnit evidence. Follow the [operator configuration example](docs/usage.md#target-quality-configuration).
+4. Install or cache dependencies before testing in the environment with networking disabled. Add `.cao-runs/`, generated reports, and build directories to the target Git ignore file.
+5. Bind the Feature and configuration file in the target project's `.cao/skills.json`.
+
+```json
+{
+  "feature": "001-kafka-failover",
+  "config": ".cao/operator-config.json"
+}
+```
+
+Relative configuration paths resolve from the target Git root. `spec plan` uses the configured Feature or generates an ID from the requirement hash when absent. `dev run` uses the Feature in the command.
+
+For Issue/PR commands, add a `policy` path to `.cao/skills.json`; Issue processing also needs an `event` path. Policy must bind the Git origin repository, allowed operations, owned Feature branch, and required CI. Issues must pass trusted provenance receipt verification. Follow the [Issue/PR operational policy](docs/usage.md#issue-execution-policy). Do not put authentication tokens in configuration files.
+
+## 5. Plan specs, approve, and develop in Codex
+
+In a terminal with the CAO environment variables set, switch to the target project and start Codex. You do not need to set the Worker `CODEX_HOME` for this interactive session.
+
+```bash
+cd "$TARGET_PROJECT"
+codex
+```
+
+Enter the following in the Codex conversation. If implicit selection does not work, use explicit invocation such as `$cao-spec`. If discovery is delayed after installation, check in a fresh Codex session.
+
+```text
+spec plan "Plan automatic failover requirements for Kafka failures"
+# Explicit invocation: $cao-spec spec plan "Plan automatic failover requirements for Kafka failures"
+```
+
+A human reviews the generated `specs/001-kafka-failover/{spec.md,plan.md,tasks.md}` and commits the three files in the target project. After resolving outstanding risks or changes, **the approver personally** creates the approval record.
+
+```bash
+"$CAO_WORKFLOWS_PYTHON" "$WORKFLOW_ROOT/scripts/cli.py" approve-spec \
+  --project "$TARGET_PROJECT" --feature 001-kafka-failover --actor your-name
+```
+
+This command creates `approval.json` bound to the spec commit/content hash. Spec changes require another review, commit, and approval. The Skill does not create human approval on the user's behalf.
+
+Request development in the target project's Codex conversation.
+
+```text
+dev run 001-kafka-failover
+# Explicit invocation: $cao-dev dev run 001-kafka-failover
+```
+
+The Skill validates inputs, approval, CAO, and the isolated executor before submitting the Workflow and reporting its Run ID. `development-orchestrator` owns the Developer ↔ Reviewer loop. `DRY_RUN` is preflight evidence, not live development completion.
+
+| Codex conversation command | Skill | Workflow |
+| --- | --- | --- |
+| `spec plan "requirements"` | `$cao-spec` | spec-planner |
+| `spec update 001-feature "change request"` | `$cao-spec` | spec-update |
+| `dev run 001-feature` | `$cao-dev` | development-orchestrator |
+| `issue run 123` | `$cao-issue` | issue-orchestrator |
+| `pr review 45` | `$cao-pr-review` | pr-review |
+| `pr apply 45` | `$cao-pr-apply` | pr-apply |
+
+Remote changes such as Issue creation, PR creation, comments, pushes, replies, and Thread Resolve require user authorization for the concrete repository and operation. `cao-pr-apply` handles review fixes, verification, replies, and Thread Resolve; it does not merge PRs. See [all commands and direct adapter invocation](docs/codex-skills.md#codex-conversation-commands).
+
+## 6. Check execution status and recover
+
+Use the reported Run ID in the **original target project and CAO server**. The following are Codex conversation commands.
+
+```text
+dev status RUN_ID
+dev resume RUN_ID
+dev cancel RUN_ID
+pr status RUN_ID
+```
+
+Use `resume` to continue an existing failed or cancelled run. If the connection is lost or submission outcome is uncertain, query `status` for the same Run ID first. Do not submit a duplicate Workflow. Only query errors receive bounded retries; submission, resume, and cancellation are not automatically repeated.
+
+The CAO run and the target project's `.cao-runs/codex-skills/<run-id>.json` survive Codex session termination. The current session polls a bounded number of times; it does not run as a resident monitor. Check the CAO `COMPLETED` state together with business results and verification evidence; insufficient evidence is reported as `UNVERIFIED`. Retry exhaustion, Human Review, and uncertain write steps require human evidence review.
+
+You can also query CAO status and results from a terminal.
+
+```bash
+"$CAO_BIN" workflow status RUN_ID
+"$CAO_BIN" workflow result RUN_ID
+```
+
+Preserve both the CAO journal and business results in `$CAO_HOME_DIR/workflow-data/`. Follow the [recovery guide](docs/usage.md#status-cancellation-and-recovery) for cancellation, resume, and manual step decisions, and [Skills results and recovery](docs/codex-skills.md#results-and-recovery) for error handling.
+
+## 7. Local validation and current qualification
+
+Run the following from the Workflow repository root.
+
+```bash
+cd "$WORKFLOW_ROOT"
+./scripts/validate-codex-skills.sh
+CAO_TEST_ISOLATION=1 .venv/bin/python -m pytest -q
+.venv/bin/ruff check workflow_lib workflows harness scripts tests codex-skills
+.venv/bin/python scripts/verify-local.py
+.venv/bin/python scripts/verify-codex-skills.py
+```
+
+Integration validation uses temporary CAO homes, servers, and installation directories. It runs no live models or remote GitHub writes and generates validation artifacts such as server logs.
+
+The recorded local suite passed **116 tests + 29 subtests**. Actual Codex Global/Project Skill discovery, isolation probes, six CAO Workflow dry-run submissions, and status queries across sessions were verified. **Actual model selection from natural language and live Planner/Developer/Reviewer and GitHub E2E remain unverified**. The earlier, separately authorized [GitHub adapter live test](docs/github-live-validation.md) is distinct from model execution through these Skills. See the [validation report](docs/validation-report.md) and [Sprint progress and remaining work](docs/implementation-progress.md).
+
+## 8. Update and uninstall
+
+For updates, rerun installation and validation for the same scope. Inspect conflicts if you edited installed owned files. Keep CAO Workflows and execution evidence while resumable runs remain.
+
+If you installed Global Skills, uninstall in this order.
+
+```bash
+./scripts/uninstall-codex-skills.sh --global --dry-run
+./scripts/uninstall-codex-skills.sh --global
+```
+
+For Project Skills, replace `--global` in the two commands above with `--project "$TARGET_PROJECT"`. Uninstallation removes only manifest-owned files, restores backups, and preserves other Skills. Uninstall CAO Workflows separately.
+
+```bash
+./scripts/uninstall.sh --cao-home "$CAO_HOME_DIR" --dry-run
+./scripts/uninstall.sh --cao-home "$CAO_HOME_DIR"
+```
+
+## Workflows and detailed documentation
+
+| Workflow | Responsibility |
+| --- | --- |
+| spec-planner / spec-plan | Installed Spec Kit Skills → spec/plan/tasks → independent review; ends for human approval |
+| spec-update | Process explicit spec change requests |
+| tdd-developer / spec-tdd | Separate Test Agent RED → Developer GREEN/refactor → configured quality gates |
 | development-orchestrator | Approved-spec TDD ↔ independent Spec Reviewer, bounded cycles |
-| spec-review | Read-only spec/test/code findings |
-| issue-orchestrator | Trusted Issue intake → plan/policy → development → draft PR → review/apply loop |
-| pr-create | Exact owned feature branch commit/push and reusable draft PR |
+| spec-review | Read-only spec/test/code review |
+| issue-orchestrator | Trusted Issue intake → planning/policy → development → draft PR → review/apply loop |
+| pr-create | Owned Feature branch commit/push and reusable draft PR |
 | pr-review | Latest SHA/diff/CI review and authorized inline comments |
-| pr-apply | Unresolved threads → fixes → tests → push → CI → reply → confirmed Resolve |
+| pr-apply | Unresolved Thread fixes → tests → push → CI → reply → confirmed Resolve |
 
-[Validation report](docs/validation-report.md) records sprint gates, evidence and qualification limits. [Architecture](docs/architecture.md), [usage](docs/usage.md), [troubleshooting](docs/troubleshooting.md), and [Java example](examples/java-spring-kafka/README.md) provide operational details.
-
-Optional [Jira inputs and PR webhook/timer triggers](docs/triggers.md) are implemented with separate authentication, explicit execution policy and durable deduplication. Their default mode is preflight; no timer, public listener or external integration is enabled by installation.
-
-The explicitly authorized disposable [GitHub live test](docs/github-live-validation.md) verifies real draft PR creation, two inline comment/fix/reply/Resolve cycles and actual CI continuation. Provider Agent execution remains separately unverified.
+See [architecture](docs/architecture.md), [operator configuration](docs/usage.md), [troubleshooting](docs/troubleshooting.md), and the [Java example](examples/java-spring-kafka/README.md). Optional [Jira inputs and PR webhook/timer triggers](docs/triggers.md) use separate authentication, execution policy, and deduplication. Installation alone enables no timer, public listener, or external integration.

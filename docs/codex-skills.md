@@ -1,20 +1,20 @@
-# Codex CLI CAO Skills 사용 가이드
+# Codex CLI CAO Skills User Guide
 
-Skills는 사용자 명령을 기존 CAO Workflow에 연결하고 Run ID와 결과를 추적한다.
-개발·리뷰 반복, Issue intake, PR 댓글 수정은 기존 Workflow가 수행한다.
-Codex CLI 0.162.1과 로컬 소스 기반 CAO 2.5.0으로 검증했다.
+Skills connect user commands to existing CAO Workflows and track Run IDs and results.
+Existing Workflows own development/review loops, Issue intake, and PR review fixes.
+Validated with Codex CLI 0.162.1 and CAO 2.5.0 from a local source checkout.
 
-## 설치와 삭제
+## Installation and removal
 
-Python 3.11+, jsonschema 4.x와 실제 실행 가능한 CAO/Codex가 필요하다.
-Skills 설치와 CAO Workflows 설치는 각각 수행한다. 설치 스크립트는 CAO 서버나 Codex를 시작하지 않는다.
+Python 3.11+, jsonschema 4.x, and working CAO/Codex executables are required.
+Install Skills and CAO Workflows separately. Installation scripts do not start CAO or Codex.
 
 ```bash
 ./scripts/install-codex-skills.sh --global --dry-run
 ./scripts/install-codex-skills.sh --global
 ./scripts/validate-codex-skills.sh --global
 
-# 특정 Git 프로젝트에 설치; 공백 경로도 지원한다.
+# Install into a specific Git project; paths containing spaces are supported.
 ./scripts/install-codex-skills.sh --project "/absolute/path/my project"
 ./scripts/validate-codex-skills.sh --project "/absolute/path/my project"
 ./scripts/uninstall-codex-skills.sh --project "/absolute/path/my project" --dry-run
@@ -23,41 +23,41 @@ Skills 설치와 CAO Workflows 설치는 각각 수행한다. 설치 스크립�
 ./scripts/uninstall-codex-skills.sh --global
 ```
 
-install/uninstall의 기본 범위는 Global (`~/.agents/skills`)이다.
-validate의 기본 범위는 저장소의 소스 Skill 구조다. 설치 결과 검사는 범위를 지정한다.
-Project 범위는 주어진 경로의 Git 루트 `.agents/skills`다.
-같은 이름의 미소유 Skill/수정 파일이 있으면 중단한다. `--force`는 기존 파일 백업 후 교체한다.
-동일 설치는 멱등적이며 업데이트는 같은 install 명령이다. 삭제는 manifest 소유 파일만 제거하며
-백업 파일을 복원한다. 수정된 설치 파일은 기본적으로 삭제하지 않는다.
-다른 Skill, 추가 사용자 파일, target AGENTS.md, 기존 CAO 설정은 보존한다.
-전역과 프로젝트에 동일 Skill을 동시에 설치하면 Codex 목록에 중복으로 보일 수 있으므로 하나의 범위를 선택한다.
+The default scope for install/uninstall is Global (`~/.agents/skills`).
+The default validate scope is the repository's source Skill structure. Specify a scope to check an installation.
+Project scope uses `.agents/skills` in the supplied path's Git root.
+Unowned Skills or modified files with the same names block installation. `--force` backs up and replaces existing files.
+Identical installation is idempotent; updates use the same install command. Removal deletes only manifest-owned files and
+restores backups. Modified installed files are not removed by default.
+Other Skills, additional user files, the target AGENTS.md, and existing CAO configuration are preserved.
+Installing identical Skills in both Global and Project scopes can produce duplicate Codex entries; choose one scope.
 
-각 Skill의 `scripts/run.py`는 설치한 공유 어댑터의 고정된 해시를 확인한 뒤 실행한다.
-어댑터는 `.cao-codex-runtime/<hash>`에 복사된다. 원본 저장소가 이동해도 실행할 수 있다.
-설치 manifest는 `cao-codex-skills-manifest.json`; 장애 복구는 기존 설치 트랜잭션 엔진을 재사용한다.
+Each Skill's `scripts/run.py` verifies the pinned hash of the installed shared adapter before execution.
+The adapter is copied into `.cao-codex-runtime/<hash>`. It works even if the source repository moves.
+The installation manifest is `cao-codex-skills-manifest.json`; recovery reuses the existing installation transaction engine.
 
-## 프로젝트와 실행 환경
+## Project and execution environment
 
-대상 프로젝트에서 Codex를 실행한다. 하위 디렉터리에서도 Git 루트가 선택된다.
-CAO CLI와 서버는 같은 CAO_HOME_DIR/API host/port와 dedicated CODEX_HOME을 사용해야 한다.
-PATH cao가 실행 불가능하면 운영 가능한 바이너리를 명시한다.
+Start Codex in the target project. The Git root is resolved even from a subdirectory.
+CAO CLI/server must share CAO_HOME_DIR, API host/port, and the dedicated Worker CODEX_HOME configuration.
+If PATH cao is broken, specify a working executable.
 
 ```bash
 export CAO_BIN=/absolute/path/cao-workflows/.venv/bin/cao
 export CAO_HOME_DIR=/absolute/path/cao-home
 export CAO_API_PORT=19889
 export CAO_WORKFLOWS_PYTHON=/absolute/path/cao-workflows/.venv/bin/python
-# 별도 터미널에서 dedicated CODEX_HOME을 지정해 서버 시작
+# Start the server in a separate terminal with a dedicated CODEX_HOME.
 CODEX_HOME=/absolute/path/isolated-codex /absolute/path/cao-workflows/.venv/bin/cao-server \
   --host 127.0.0.1 --port 19889
 ```
 
-서버 바이너리 경로는 자신의 설치 경로로 바꾼다. Workflow 배치는 기존
-`scripts/install.sh --cao-home /absolute/path/cao-home`을 사용한다.
-서버/CLI 경로를 Skill이 추측하거나 기존 사용자 CAO를 자동 재설정하지 않는다.
+Replace the server executable path with your installation path. Deploy Workflows using the existing
+`scripts/install.sh --cao-home /absolute/path/cao-home` command.
+The Skill does not guess server/CLI paths or automatically reconfigure an existing CAO installation.
 
-대상 프로젝트에 `.cao/skills.json`을 작성한다. config/policy/event는 기존 Workflow 입력 계약이다.
-상대 경로는 target Git 루트 기준이며 절대 경로도 지원한다. 인증 토큰을 넣지 않는다.
+Create `.cao/skills.json` in the target project. config/policy/event follow existing Workflow input contracts.
+Relative paths resolve from the target Git root; absolute paths are also supported. Do not include authentication tokens.
 
 ```json
 {
@@ -68,26 +68,26 @@ CODEX_HOME=/absolute/path/isolated-codex /absolute/path/cao-workflows/.venv/bin/
 }
 ```
 
-dev run의 feature는 명령에서 결정한다. spec plan은 설정 feature를 사용하며 없으면 요구사항
-해시에서 안전한 `001-<hash>` ID를 할당한다. 같은 요청은 같은 ID를 조회한다.
-Issue/PR 입력에는 feature 바인딩이 필요하다. 숫자만으로 다른 저장소에 접근하지 않는다.
-Issue는 실제 기존 intake의 event/출처 receipt/정책 검증을 통과해야 한다.
-policy.repo/repositories와 Git origin 저장소가 일치해야 한다. 자동 receipt는 Skill이 생성하지 않는다.
+The dev run feature comes from the command. spec plan uses the configured feature or derives a safe
+`001-<hash>` ID from the requirement hash. Identical requests query the same ID.
+Issue/PR inputs require a feature binding. Numbers alone never authorize access to another repository.
+Issues must pass the existing intake's event, provenance receipt, and policy validation.
+policy.repo/repositories must match the Git origin repository. The Skill does not generate automatic receipts.
 
-실제 dev 실행에는 `.specify`와 설치된 speckit-{specify,clarify,plan,tasks,analyze} Skills,
-spec.md/plan.md/tasks.md와 검증 가능한 manual approval.json이 필요하다.
-승인 방법과 품질 명령·GitHub 정책은 [기존 운영 가이드](usage.md)를 따른다.
-Skill은 승인 기록을 생성하거나 테스트·명세를 약화하지 않는다.
+Live development requires `.specify`, installed speckit-{specify,clarify,plan,tasks,analyze} Skills,
+spec.md/plan.md/tasks.md, and a verifiable manual approval.json.
+Follow the [existing operations guide](usage.md) for approval, quality commands, and GitHub policy.
+Skills do not create approval records or weaken tests/specs.
 
-## 설치된 Codex의 격리 프로필
+## Isolated profiles for the installed Codex version
 
-실행 config에는 `codex_config_path`가 필요하다. CAO 서버가 사용하는 dedicated
-CODEX_HOME/config.toml을 지정한다. 실제 모델 인증은 운영자가 이 환경에 별도로 구성한다.
-외부 MCP, extra writable roots, GitHub credentials가 없는 전용 실행 계정을 사용한다.
+Execution config requires `codex_config_path`. Point it to the dedicated
+CODEX_HOME/config.toml used by the CAO server. The operator configures model authentication separately.
+Use a dedicated execution account without external MCP servers, extra writable roots, or GitHub credentials.
 
-Codex 0.162.1의 `--profile NAME`은 `$CODEX_HOME/NAME.config.toml`을 로드한다.
-기존 `[profiles.NAME]` 형식은 구버전 검증용으로 유지하지만 설치된 CLI의 실제 probe가
-실패하면 live 실행을 차단한다. 현재 버전에서는 다음 두 파일을 준비한다.
+Codex 0.162.1 loads `$CODEX_HOME/NAME.config.toml` for `--profile NAME`.
+The existing `[profiles.NAME]` format is retained for older-version validation, but a failed actual installed-CLI probe
+blocks live execution. Prepare the following two files for the current version.
 
 ```toml
 # cao-workflows-readonly.config.toml
@@ -107,29 +107,29 @@ network_access = false
 writable_roots = []
 ```
 
-어댑터는 먼저 bubblewrap의 no-home/no-credentials/no-network/readonly Git probe,
-이어 실제 `codex sandbox --permission-profile ... --profile ...`의 두 프로필 probe를 수행한다.
-이 명령은 모델을 호출하지 않는다. 실행기 또는 프로필 확인 실패는 BLOCKED_ENVIRONMENT다.
-target `.codex/config.toml`은 운영자가 감사한 격리 checkout에서 제거해야 한다.
-base config와 프로필의 안전성을 함께 검사한다. 전용 프로필 파일을 사용자 설정에 자동 작성하지 않는다.
+The adapter first runs the bubblewrap probe for no home, credentials, or network access and read-only Git,
+then probes both profiles using the actual `codex sandbox --permission-profile ... --profile ...` executor.
+These commands do not call a model. Executor or profile verification failure is BLOCKED_ENVIRONMENT.
+The operator must audit and remove the target `.codex/config.toml` from the isolated execution checkout.
+Base configuration and profiles are both checked for safety. Dedicated profiles are not automatically written into user settings.
 
-## Codex 대화 명령
+## Codex conversation commands
 
-| 요청 | 명시적 호출 | Workflow |
+| Request | Explicit invocation | Workflow |
 | --- | --- | --- |
 | `spec plan "Kafka failover"` | `$cao-spec spec plan "Kafka failover"` | spec-planner |
-| `spec update 001-kafka-failover "정책 수정"` | `$cao-spec spec update ...` | spec-update |
+| `spec update 001-kafka-failover "Update the policy"` | `$cao-spec spec update ...` | spec-update |
 | `dev run 001-kafka-failover` | `$cao-dev dev run 001-kafka-failover` | development-orchestrator |
 | `issue run 123` | `$cao-issue issue run 123` | issue-orchestrator |
 | `pr review 45` | `$cao-pr-review pr review 45` | pr-review |
 | `pr apply 45` | `$cao-pr-apply pr apply 45` | pr-apply |
-| `dev status RUN_ID` | `$cao-dev dev status RUN_ID` | 기존 Run 조회 |
-| `dev resume RUN_ID` / `dev cancel RUN_ID` | `$cao-dev dev resume/cancel RUN_ID` | 기존 Run 재개/취소 |
-| `pr status RUN_ID` | `$cao-pr-review pr status RUN_ID` | 저장된 PR Run 조회 |
+| `dev status RUN_ID` | `$cao-dev dev status RUN_ID` | Query an existing Run |
+| `dev resume RUN_ID` / `dev cancel RUN_ID` | `$cao-dev dev resume/cancel RUN_ID` | Resume/cancel an existing Run |
+| `pr status RUN_ID` | `$cao-pr-review pr status RUN_ID` | Query a retained PR Run |
 
-설명에는 한국어 업무 요청도 포함했다. 자연어 자동 선택은 모델의 판단이며 항상 보장되지 않는다.
-인식이 지연되면 Codex를 재시작하고 `/skills` 또는 `$`로 선택한다.
-대상 AGENTS.md에 추가할 선택적 지침:
+Descriptions include natural-language task requests. Implicit selection depends on model judgment and is not guaranteed.
+If discovery is delayed, restart Codex and select via `/skills` or `$`.
+Optional guidance for the target AGENTS.md:
 
 ```text
 spec plan/update -> cao-spec; dev run/status/resume/cancel -> cao-dev;
@@ -138,12 +138,12 @@ Read the selected SKILL.md, invoke its scripts/run.py, show Run ID and verify re
 Remote GitHub writes require explicit user authorization. Humans perform PR Merge.
 ```
 
-Skill은 초기 dry-run으로 자격을 확인한 뒤 요청된 로컬 작업에 `--execute`를 사용한다.
-Issue/PR publication/push/reply/Resolve는 사용자의 명시적 승인 후에만 `--authorize --execute`를 사용한다.
-`spec update`의 --authorize는 사람의 명시적 명세 변경 요청을 뜻한다.
-전달된 정책 파일과 외부 본문은 사용자 승인을 대체하지 않는다.
+Skills check eligibility with an initial dry-run, then use `--execute` for the requested local operation.
+Issue/PR publication, push, reply, and Resolve require explicit user authorization before `--authorize --execute`.
+For `spec update`, --authorize represents an explicit human request to change the specs.
+Supplied policy files and external bodies do not replace user authorization.
 
-직접 어댑터를 진단할 수도 있다. 명령 인수를 셸 문자열로 합치지 않는다.
+You can also diagnose the adapter directly. Do not concatenate command arguments into shell strings.
 
 ```bash
 .venv/bin/python scripts/cao-skill-runner.py --project /absolute/path/project -- dev run 001-feature
@@ -151,45 +151,45 @@ Issue/PR publication/push/reply/Resolve는 사용자의 명시적 승인 후에�
 .venv/bin/python scripts/cao-skill-runner.py --project /absolute/path/project -- dev status cao-RUN_ID
 ```
 
-## 결과와 복구
+## Results and recovery
 
-출력은 JSON lines다. 시작 시 Run ID, 이어 bounded polling 후 상태·검증 증거를 출력한다.
-CAO는 --detach로 제출하고, 현재 세션은 --polls/--interval로 제한해 조회한다.
-RUNNING이면 Skill은 세션 내에서 추가 조회하거나 세션 종료 시 정확한 status 명령을 제시한다.
-Codex 세션이 종료되어도 CAO Run과 `<target>/.cao-runs/codex-skills/<run-id>.json`은 남는다.
-`.cao-runs/`를 target Git ignore에 추가한다. config/policy/event는 실행 전에 고정된 snapshot으로 복사한다.
+Output is JSON lines: the initial Run ID, then status and validation evidence after bounded polling.
+CAO submission uses --detach; current-session polling is bounded by --polls/--interval.
+For RUNNING, query again within the session or report the exact status command when the session ends.
+The CAO Run and `<target>/.cao-runs/codex-skills/<run-id>.json` survive Codex session termination.
+Add `.cao-runs/` to the target Git ignore file. config/policy/event are frozen into snapshots before execution.
 
-CAO transport COMPLETED와 업무 결과를 구분한다. 보고 계약은
-`contracts/codex-skill-result.schema.json`이며 Workflow·project·feature·Run ID·CAO state·status,
-테스트/단계 증거·artifact·차단 이유·다음 사람 작업을 포함한다.
-PR 완료는 읽기 전용 재조회로 SHA·open PR·미해결 Thread 수를 확인한다.
-추적 불가능한 changed_files는 추정하지 않으며 changed_files_verified=false로 구분한다.
+CAO transport COMPLETED is distinct from the business result. The reporting contract is
+`contracts/codex-skill-result.schema.json`, including Workflow, project, feature, Run ID, CAO state, status,
+test/stage evidence, artifacts, blockers, and the next human action.
+PR completion uses read-only re-queries to confirm SHA, open PR state, and unresolved Thread counts.
+Untraceable changed_files are not inferred; they are identified with changed_files_verified=false.
 
-설치된 CAO 2.5.0은 script output을 동기 실행에서 반환하지만 종료 후 result 조회에서는 누락한다.
-따라서 기존 Workflow의 `$CAO_HOME_DIR/workflow-data/<identity-hash>/result.json`을 fallback으로
-읽고 schema/Run ID를 검증한다. Issue는 기존 repo#issue_number 상태 키를 따른다.
-서버 데이터에 접근할 수 없는 remote-only 설치에서 output도 없으면 UNVERIFIED다.
-CAO_HOME_DIR과 API endpoint가 바뀌면 저장된 실행을 임의로 다른 서버에 연결하지 않는다.
+Installed CAO 2.5.0 returns script output synchronously but omits it from retained result queries after completion.
+The adapter therefore falls back to the existing Workflow-owned `$CAO_HOME_DIR/workflow-data/<identity-hash>/result.json`,
+validating the schema and Run ID. Issues use the existing repo#issue_number state key.
+Remote-only deployments without accessible server artifacts or output return UNVERIFIED.
+A changed CAO_HOME_DIR or API endpoint never silently rebinds a retained run to another server.
 
-| 상태 | 처리 |
+| Status | Handling |
 | --- | --- |
-| BLOCKED_SPEC | 사람이 명세·승인 해시 수정/승인 후 실행 |
-| BLOCKED_ENVIRONMENT | CAO 바이너리/서버/Workflow/격리 프로필/품질 설정을 복구 |
-| CONNECTION_LOST | 조회 실패; 같은 Run ID를 status로 확인 |
-| SUBMISSION_UNCERTAIN | 제출 결과 불명; 새 run 금지, 같은 ID 조회 |
-| MAX_RETRIES / HUMAN_REQUIRED | Workflow 반복 한도/리뷰 판단을 사람이 검토 |
-| FAILED / CANCELLED | 확인된 기존 ID만 명시적으로 resume; 취소 요청 자체는 CANCELLED 증거가 아님 |
-| UNVERIFIED | 출력/품질/현재 PR 확인 근거가 부족함; 성공으로 처리하지 않음 |
-| AWAITING_HUMAN_MERGE | 사람의 최종 PR 검토·Merge를 기다림; Issue를 닫지 않음 |
+| BLOCKED_SPEC | A human fixes/reviews the specs and approval hash, then authorizes execution |
+| BLOCKED_ENVIRONMENT | Repair the CAO executable/server/Workflow, isolation profiles, or quality configuration |
+| CONNECTION_LOST | Query failed; check the same Run ID with status |
+| SUBMISSION_UNCERTAIN | Submission outcome unknown; do not create another run, query the same ID |
+| MAX_RETRIES / HUMAN_REQUIRED | A human reviews exhausted Workflow cycles or reviewer decisions |
+| FAILED / CANCELLED | Explicitly resume only a confirmed existing ID; a cancel request alone is not CANCELLED evidence |
+| UNVERIFIED | Insufficient output, quality, or current PR evidence; do not report success |
+| AWAITING_HUMAN_MERGE | Await final human PR review/merge; do not close the Issue |
 
-조회만 최대 3회 재시도한다. submit/resume/cancel은 자동 재실행하지 않는다.
-동일 실행 요청은 기존 Run ID를 조회한다. 변경된 입력으로 같은 활성 feature 실행을 중복 시작하지 않는다.
-이전 dry-run 종료 후 설정 변경, 종료 후 새 명시적 Spec 변경 요청, 완료 후 재승인된 Spec은 별도의 실행을 허용한다.
-resume은 CAO journal을 재사용하며 승인/고정 입력/격리 상태를 재검증한다.
-CAO manual step decision은 사람이 증거를 확인해 기존 CAO --decide를 사용한다; Skill이 동의를 위조하지 않는다.
-PR Merge/Auto-Merge/Queue/base push/protection bypass는 어떤 승인으로도 실행할 수 없다.
+Only queries receive up to three retries. Submission, resume, and cancellation are never automatically repeated.
+Identical requests query the existing Run ID. Changed inputs cannot start a duplicate active feature run.
+Separate runs are allowed after a completed dry-run with changed settings, a new explicit spec change request after termination, or completed development with newly approved specs.
+Resume reuses the CAO journal and rechecks approval, frozen inputs, and isolation.
+For manual CAO step decisions, a human reviews evidence and uses the existing CAO --decide option; Skills never fabricate consent.
+No authorization permits PR merge, auto-merge, queue registration, base pushes, or protection bypass.
 
-## 검증 범위
+## Validation scope
 
 ```bash
 ./scripts/validate-codex-skills.sh
@@ -198,13 +198,13 @@ CAO_TEST_ISOLATION=1 .venv/bin/python -m pytest -q
 .venv/bin/python scripts/verify-codex-skills.py
 ```
 
-마지막 명령은 임시 Global/Project 설치에서 실제 Codex app-server skills/list를 조회하고,
-임시 로컬 CAO 서버에 실제 6 Workflow를 dry-run 제출해 상태/결과/세션 간 복구를 검증한다.
-원격 GitHub 쓰기와 모델 실행은 수행하지 않는다. 자연어 모델 선택과 live Developer↔Reviewer,
-실제 GitHub publication/Push/Thread Resolve E2E는 아직 미검증이다.
-운영 전체 인수 완료와 로컬 구현/Mock 검증을 구분한다. Sprint 상태와 재개 작업은
-[implementation-progress.md](implementation-progress.md), 실행 근거는 [validation-report.md](validation-report.md)에 남긴다.
+The final command queries the actual Codex app-server skills/list with temporary Global/Project installations,
+then submits six actual Workflow dry-runs to a temporary local CAO server and verifies status, results, and recovery across sessions.
+It performs no remote GitHub writes or model execution. Natural-language model selection and live Developer↔Reviewer execution,
+and actual GitHub publication/push/Thread Resolve E2E, remain unverified.
+Distinguish full operational acceptance from local implementation/Mock validation. Sprint status and recovery tasks are in
+[implementation-progress.md](implementation-progress.md); execution evidence is in [validation-report.md](validation-report.md).
 
-공식 참고: [Skills](https://learn.chatgpt.com/docs/build-skills),
+Official references: [Skills](https://learn.chatgpt.com/docs/build-skills),
 [Codex CLI reference](https://learn.chatgpt.com/docs/cli/reference),
 [Permissions](https://learn.chatgpt.com/docs/permissions).

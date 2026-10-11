@@ -1,6 +1,6 @@
 ---
 name: cao-pr-review
-description: "Review a CAO GitHub PR with inline findings: pr review NUMBER, pr status RUN_ID, or PR 인라인 리뷰. Calls pr-review; report latest SHA and existing threads without editing code or resolving threads."
+description: "Review a CAO GitHub PR with inline findings: pr review NUMBER, pr status RUN_ID, or natural-language requests for inline PR review. Calls pr-review; report latest SHA and existing threads without editing code or resolving threads."
 ---
 
 # cao-pr-review

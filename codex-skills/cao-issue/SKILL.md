@@ -1,6 +1,6 @@
 ---
 name: cao-issue
-description: "Run an eligible automatically generated CAO GitHub Issue: issue run NUMBER or 자동 생성 Issue 처리. Calls issue-orchestrator with repository-bound provenance and reports AWAITING_HUMAN_MERGE."
+description: "Run an eligible automatically generated CAO GitHub Issue: issue run NUMBER or natural-language requests to process an automated Issue. Calls issue-orchestrator with repository-bound provenance and reports AWAITING_HUMAN_MERGE."
 ---
 
 # cao-issue

@@ -8,7 +8,7 @@ Create these named profiles in that dedicated `CODEX_HOME/config.toml`. Start th
 
 The following profile-table example applies to older Codex releases. The installed Codex 0.162.1
 loads `cao-workflows-readonly.config.toml` and `cao-workflows-write.config.toml` from CODEX_HOME
-for `--profile`. Use the [current profile-file setup](codex-skills.md#설치된-codex의-격리-프로필)
+for `--profile`. Use the [current profile-file setup](codex-skills.md#isolated-profiles-for-the-installed-codex-version)
 for this version; the Skills runner tests both actual native executors before enabling live work.
 
 ```toml
