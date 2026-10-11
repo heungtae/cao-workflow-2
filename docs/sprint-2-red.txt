@@ -1,0 +1,25 @@
+test_collision_force_restore_and_modified_protection (test_install.InstallTests.test_collision_force_restore_and_modified_protection) ... ok
+test_install_reinstall_uninstall_preserves_user (test_install.InstallTests.test_install_reinstall_uninstall_preserves_user) ... ok
+test_rollback_and_dry_run (test_install.InstallTests.test_rollback_and_dry_run) ... ok
+test_symlink_escape_rejected (test_install.InstallTests.test_symlink_escape_rejected) ... ok
+test_workflows (unittest.loader._FailedTest.test_workflows) ... ERROR
+
+======================================================================
+ERROR: test_workflows (unittest.loader._FailedTest.test_workflows)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_workflows
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 426, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/usr/lib/python3.14/unittest/loader.py", line 367, in _get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/tests/test_workflows.py", line 5, in <module>
+    from workflow_lib.project import Project
+ModuleNotFoundError: No module named 'workflow_lib.project'
+
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.009s
+
+FAILED (errors=1)

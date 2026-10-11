@@ -218,3 +218,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Retain sanitized local validation evidence.
+!docs/local-integration.log
+!docs/local-server.log
+!docs/github-live-integration.log
+!docs/github-live-second-cycle.log
+!docs/github-live-evidence/**/*.log

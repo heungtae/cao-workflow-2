@@ -1,0 +1,29 @@
+test_collision_force_restore_and_modified_protection (test_install.InstallTests.test_collision_force_restore_and_modified_protection) ... ok
+test_install_reinstall_uninstall_preserves_user (test_install.InstallTests.test_install_reinstall_uninstall_preserves_user) ... ok
+test_rollback_and_dry_run (test_install.InstallTests.test_rollback_and_dry_run) ... ok
+test_symlink_escape_rejected (test_install.InstallTests.test_symlink_escape_rejected) ... ok
+test_quality_gate (unittest.loader._FailedTest.test_quality_gate) ... ERROR
+test_missing_specs_and_invalid_results (test_workflows.ProjectTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_workflows.ProjectTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_workflows.ProjectTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_workflows.ProjectTests.test_review_readonly_detects_mutation) ... ok
+
+======================================================================
+ERROR: test_quality_gate (unittest.loader._FailedTest.test_quality_gate)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_quality_gate
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 426, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/usr/lib/python3.14/unittest/loader.py", line 367, in _get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/tests/test_quality_gate.py", line 4, in <module>
+    from workflow_lib.tdd import classify_red, develop
+ModuleNotFoundError: No module named 'workflow_lib.tdd'
+
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.041s
+
+FAILED (errors=1)

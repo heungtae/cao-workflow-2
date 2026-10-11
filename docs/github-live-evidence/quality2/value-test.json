@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-p",
+    "no:libtmux",
+    "test_value.py",
+    "--junitxml=.cao-runs/junit.xml"
+  ],
+  "exit_code": 0,
+  "log": "/tmp/cao-live-evidence-20261011/quality2/value-test.log",
+  "tests": 3,
+  "failures": [],
+  "errors": [],
+  "junit": "/tmp/cao-live-evidence-20261011/quality2/value-test-junit-0.xml",
+  "assertion_only": true,
+  "duration_seconds": 0.25702912401175126,
+  "junit_files": [
+    "/tmp/cao-live-evidence-20261011/quality2/value-test-junit-0.xml"
+  ]
+}

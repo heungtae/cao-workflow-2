@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "run_id",
+    "repo",
+    "issue_number",
+    "pr_number",
+    "head_sha",
+    "status",
+    "next_action",
+    "artifacts",
+    "evidence"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repo": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "issue_number": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "pr_number": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "head_sha": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "status": {
+      "enum": [
+        "NEW",
+        "VALIDATING",
+        "PLANNING",
+        "SPEC_GATE",
+        "DEVELOPING",
+        "INTERNAL_REVIEW",
+        "PR_CREATING",
+        "PR_REVIEW",
+        "PR_APPLY",
+        "AWAITING_HUMAN_MERGE",
+        "CHANGES_REQUIRED",
+        "BLOCKED_SPEC",
+        "BLOCKED_ENVIRONMENT",
+        "HUMAN_REQUIRED",
+        "MAX_RETRIES",
+        "FAILED",
+        "PASS",
+        "COMPLETED",
+        "CANCELLED",
+        "DRY_RUN"
+      ]
+    },
+    "next_action": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

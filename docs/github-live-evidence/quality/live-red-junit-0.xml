@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="0.028" timestamp="2026-10-11T05:02:14.963455+00:00" hostname="heungtae-MS-7C94"><testcase classname="test_value" name="test_type" time="0.000" /><testcase classname="test_value" name="test_label" time="0.000"><failure message="AssertionError: assert 'pending' == 'ready'&#10;  &#10;  - ready&#10;  + pending">def test_label():
+        from app import label
+
+&gt;       assert label() == "ready"
+E       AssertionError: assert 'pending' == 'ready'
+E
+E         - ready
+E         + pending
+
+test_value.py:11: AssertionError</failure></testcase></testsuite></testsuites>

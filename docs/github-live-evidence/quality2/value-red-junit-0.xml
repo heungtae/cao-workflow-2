@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="3" time="0.029" timestamp="2026-10-11T05:03:25.642043+00:00" hostname="heungtae-MS-7C94"><testcase classname="test_value" name="test_type" time="0.000" /><testcase classname="test_value" name="test_label" time="0.000" /><testcase classname="test_value" name="test_required_value" time="0.000"><failure message="assert 0 == 42&#10; +  where 0 = value()">def test_required_value():
+&gt;       assert value() == 42
+E       assert 0 == 42
+E        +  where 0 = value()
+
+test_value.py:15: AssertionError</failure></testcase></testsuite></testsuites>

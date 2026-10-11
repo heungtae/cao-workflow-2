@@ -1,0 +1,40 @@
+...E.
+======================================================================
+ERROR: test_paginated_reads_support_installed_gh_without_slurp (test_pr_review_threads.ReviewTests.test_paginated_reads_support_installed_gh_without_slurp)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/workflow_lib/github_pr.py", line 88, in _gh
+    value = json.loads(proc.stdout)
+  File "/usr/lib/python3.14/json/__init__.py", line 352, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/usr/lib/python3.14/json/decoder.py", line 348, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 2 column 1 (char 15)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/tests/test_pr_review_threads.py", line 71, in test_paginated_reads_support_installed_gh_without_slurp
+    pages = api.call('list_prs', {'branch': 'cao/issue-1'})
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/workflow_lib/github_pr.py", line 40, in call
+    return self.transport(operation, payload)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/workflow_lib/github_pr.py", line 138, in _transport
+    return self._gh(
+           ~~~~~~~~^
+        [
+        ^
+    ...<4 lines>...
+        ]
+        ^
+    )
+    ^
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/workflow_lib/github_pr.py", line 90, in _gh
+    raise ValueError("invalid GitHub response") from error
+ValueError: invalid GitHub response
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.019s
+
+FAILED (errors=1)

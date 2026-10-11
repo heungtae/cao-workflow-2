@@ -1,0 +1,727 @@
+{
+  "repository": {
+    "url": "https://github.com/heungtae/cao-workflow-2-live-test-20261011",
+    "private": true,
+    "initial_base_sha": "46c1b9fd8a922932f625a1d39e1b94fa0ed317a3"
+  },
+  "issue_intake": {
+    "url": "https://github.com/heungtae/cao-workflow-2-live-test-20261011/issues/1",
+    "status": "PASS"
+  },
+  "pr_create": {
+    "url": "https://github.com/heungtae/cao-workflow-2-live-test-20261011/pull/2",
+    "status": "PASS",
+    "reused": true,
+    "pr_number": 2,
+    "head_sha": "bbdf3f538760327b9691301f2d42178c8c5633af"
+  },
+  "inline_review": {
+    "status": "PASS",
+    "deduplicated": true,
+    "thread_id": "PRRT_kwDOVEcV0c6rKfvj"
+  },
+  "stale_sha_denied": true,
+  "unauthorized_write_denied": true,
+  "forbidden_operations_denied": true,
+  "red": {
+    "argv": [
+      "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-p",
+      "no:libtmux",
+      "test_value.py",
+      "--junitxml=.cao-runs/junit.xml"
+    ],
+    "exit_code": 1,
+    "log": "/tmp/cao-live-evidence-20261011/quality/live-red.log",
+    "tests": 2,
+    "failures": [
+      "test_value::test_label"
+    ],
+    "errors": [],
+    "junit": "/tmp/cao-live-evidence-20261011/quality/live-red-junit-0.xml",
+    "assertion_only": true,
+    "duration_seconds": 0.2507026739913272,
+    "junit_files": [
+      "/tmp/cao-live-evidence-20261011/quality/live-red-junit-0.xml"
+    ]
+  },
+  "first_apply": {
+    "run_id": "local",
+    "repo": null,
+    "issue_number": null,
+    "pr_number": 2,
+    "head_sha": "88cdd501c547ab032b3acfdccd6b333b3f6f1c81",
+    "status": "BLOCKED_ENVIRONMENT",
+    "next_action": "Required CI pending/failed",
+    "artifacts": [],
+    "evidence": [],
+    "threads": [
+      {
+        "thread_id": "PRRT_kwDOVEcV0c6rKfvj",
+        "resolution_status": "FIXED",
+        "fix_commit_sha": null,
+        "test_evidence": [],
+        "reply_comment_id": null,
+        "github_is_resolved": false
+      }
+    ]
+  },
+  "apply_resume": {
+    "status": "PASS",
+    "head_sha": "88cdd501c547ab032b3acfdccd6b333b3f6f1c81"
+  },
+  "pr_apply": {
+    "status": "PASS",
+    "resume_no_duplicate_fix_or_push": true,
+    "counts": {
+      "fix": 1,
+      "push": 1
+    },
+    "result": {
+      "run_id": "local",
+      "repo": null,
+      "issue_number": null,
+      "pr_number": 2,
+      "head_sha": "88cdd501c547ab032b3acfdccd6b333b3f6f1c81",
+      "status": "PASS",
+      "next_action": null,
+      "artifacts": [],
+      "evidence": [
+        {
+          "argv": [
+            "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/python",
+            "-m",
+            "pytest",
+            "-p",
+            "no:libtmux",
+            "test_value.py",
+            "--junitxml=.cao-runs/junit.xml"
+          ],
+          "assertion_only": true,
+          "duration_seconds": 0.23505572600697633,
+          "errors": [],
+          "exit_code": 0,
+          "failures": [],
+          "junit": "/tmp/cao-live-evidence-20261011/quality/live-test-junit-0.xml",
+          "junit_files": [
+            "/tmp/cao-live-evidence-20261011/quality/live-test-junit-0.xml"
+          ],
+          "log": "/tmp/cao-live-evidence-20261011/quality/live-test.log",
+          "tests": 2
+        },
+        {
+          "argv": [
+            "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/ruff",
+            "check",
+            "app.py",
+            "test_value.py"
+          ],
+          "assertion_only": false,
+          "duration_seconds": 0.01286079699639231,
+          "errors": [],
+          "exit_code": 0,
+          "failures": [],
+          "junit": null,
+          "junit_files": [],
+          "log": "/tmp/cao-live-evidence-20261011/quality/live-static.log",
+          "tests": 0
+        },
+        {
+          "argv": [
+            "python3",
+            "coverage_check.py"
+          ],
+          "assertion_only": false,
+          "duration_seconds": 0.03904920599597972,
+          "errors": [],
+          "exit_code": 0,
+          "failures": [],
+          "junit": null,
+          "junit_files": [],
+          "log": "/tmp/cao-live-evidence-20261011/quality/live-coverage.log",
+          "tests": 0
+        }
+      ],
+      "threads": [
+        {
+          "thread_id": "PRRT_kwDOVEcV0c6rKfvj",
+          "resolution_status": "RESOLVED",
+          "fix_commit_sha": "88cdd501c547ab032b3acfdccd6b333b3f6f1c81",
+          "test_evidence": [
+            {
+              "argv": [
+                "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/python",
+                "-m",
+                "pytest",
+                "-p",
+                "no:libtmux",
+                "test_value.py",
+                "--junitxml=.cao-runs/junit.xml"
+              ],
+              "assertion_only": true,
+              "duration_seconds": 0.23505572600697633,
+              "errors": [],
+              "exit_code": 0,
+              "failures": [],
+              "junit": "/tmp/cao-live-evidence-20261011/quality/live-test-junit-0.xml",
+              "junit_files": [
+                "/tmp/cao-live-evidence-20261011/quality/live-test-junit-0.xml"
+              ],
+              "log": "/tmp/cao-live-evidence-20261011/quality/live-test.log",
+              "tests": 2
+            },
+            {
+              "argv": [
+                "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/ruff",
+                "check",
+                "app.py",
+                "test_value.py"
+              ],
+              "assertion_only": false,
+              "duration_seconds": 0.01286079699639231,
+              "errors": [],
+              "exit_code": 0,
+              "failures": [],
+              "junit": null,
+              "junit_files": [],
+              "log": "/tmp/cao-live-evidence-20261011/quality/live-static.log",
+              "tests": 0
+            },
+            {
+              "argv": [
+                "python3",
+                "coverage_check.py"
+              ],
+              "assertion_only": false,
+              "duration_seconds": 0.03904920599597972,
+              "errors": [],
+              "exit_code": 0,
+              "failures": [],
+              "junit": null,
+              "junit_files": [],
+              "log": "/tmp/cao-live-evidence-20261011/quality/live-coverage.log",
+              "tests": 0
+            }
+          ],
+          "reply_comment_id": 4240333402,
+          "github_is_resolved": true
+        }
+      ]
+    }
+  },
+  "final": {
+    "status": "AWAITING_HUMAN_MERGE",
+    "pr_state": "OPEN",
+    "draft": true,
+    "merged": false,
+    "auto_merge": null,
+    "issue_state": "open",
+    "base_sha_unchanged": true,
+    "resolved_threads": 2,
+    "comments_per_thread": 2,
+    "head_sha": "63915c7c920f78bc626b9bc466ced519d69ff6b0"
+  },
+  "audit": [
+    {
+      "operation": "issue",
+      "write": false
+    },
+    {
+      "operation": "list_prs",
+      "write": false
+    },
+    {
+      "operation": "create_pr",
+      "write": true
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "list_prs",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "diff",
+      "write": false
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "create_review",
+      "write": true
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "diff",
+      "write": false
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "checks",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "checks",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "checks",
+      "write": false
+    },
+    {
+      "operation": "reply",
+      "write": true
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "checks",
+      "write": false
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "resolve",
+      "write": true
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "checks",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "issue",
+      "write": false
+    },
+    {
+      "operation": "issue",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "diff",
+      "write": false
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "create_review",
+      "write": true
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "checks",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "checks",
+      "write": false
+    },
+    {
+      "operation": "reply",
+      "write": true
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "checks",
+      "write": false
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "resolve",
+      "write": true
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "threads",
+      "write": false
+    },
+    {
+      "operation": "get_pr",
+      "write": false
+    },
+    {
+      "operation": "checks",
+      "write": false
+    },
+    {
+      "operation": "issue",
+      "write": false
+    }
+  ],
+  "qualification": {
+    "github": "LIVE_VERIFIED",
+    "quality": "ISOLATED_REAL_COMMANDS",
+    "provider_agent": "NOT_EXECUTED",
+    "planner": "NOT_EXECUTED",
+    "issue_orchestrator": "NOT_EXECUTED"
+  },
+  "second_inline_review": {
+    "status": "PASS",
+    "thread_id": "PRRT_kwDOVEcV0c6rKgI8",
+    "head_sha": "88cdd501c547ab032b3acfdccd6b333b3f6f1c81"
+  },
+  "second_red": {
+    "argv": [
+      "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-p",
+      "no:libtmux",
+      "test_value.py",
+      "--junitxml=.cao-runs/junit.xml"
+    ],
+    "exit_code": 1,
+    "log": "/tmp/cao-live-evidence-20261011/quality2/value-red.log",
+    "tests": 3,
+    "failures": [
+      "test_value::test_required_value"
+    ],
+    "errors": [],
+    "junit": "/tmp/cao-live-evidence-20261011/quality2/value-red-junit-0.xml",
+    "assertion_only": true,
+    "duration_seconds": 0.25683531699178275,
+    "junit_files": [
+      "/tmp/cao-live-evidence-20261011/quality2/value-red-junit-0.xml"
+    ]
+  },
+  "second_first_apply": {
+    "run_id": "local",
+    "repo": null,
+    "issue_number": null,
+    "pr_number": 2,
+    "head_sha": "63915c7c920f78bc626b9bc466ced519d69ff6b0",
+    "status": "BLOCKED_ENVIRONMENT",
+    "next_action": "Required CI pending/failed",
+    "artifacts": [],
+    "evidence": [],
+    "threads": [
+      {
+        "thread_id": "PRRT_kwDOVEcV0c6rKgI8",
+        "resolution_status": "FIXED",
+        "fix_commit_sha": null,
+        "test_evidence": [],
+        "reply_comment_id": null,
+        "github_is_resolved": false
+      }
+    ]
+  },
+  "second_apply_resume": {
+    "status": "PASS",
+    "head_sha": "63915c7c920f78bc626b9bc466ced519d69ff6b0"
+  },
+  "second_pr_apply": {
+    "status": "PASS",
+    "counts": {
+      "fix": 1,
+      "push": 1
+    },
+    "result": {
+      "run_id": "local",
+      "repo": null,
+      "issue_number": null,
+      "pr_number": 2,
+      "head_sha": "63915c7c920f78bc626b9bc466ced519d69ff6b0",
+      "status": "PASS",
+      "next_action": null,
+      "artifacts": [],
+      "evidence": [
+        {
+          "argv": [
+            "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/python",
+            "-m",
+            "pytest",
+            "-p",
+            "no:libtmux",
+            "test_value.py",
+            "--junitxml=.cao-runs/junit.xml"
+          ],
+          "assertion_only": true,
+          "duration_seconds": 0.25702912401175126,
+          "errors": [],
+          "exit_code": 0,
+          "failures": [],
+          "junit": "/tmp/cao-live-evidence-20261011/quality2/value-test-junit-0.xml",
+          "junit_files": [
+            "/tmp/cao-live-evidence-20261011/quality2/value-test-junit-0.xml"
+          ],
+          "log": "/tmp/cao-live-evidence-20261011/quality2/value-test.log",
+          "tests": 3
+        },
+        {
+          "argv": [
+            "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/ruff",
+            "check",
+            "app.py",
+            "test_value.py"
+          ],
+          "assertion_only": false,
+          "duration_seconds": 0.013552359989262186,
+          "errors": [],
+          "exit_code": 0,
+          "failures": [],
+          "junit": null,
+          "junit_files": [],
+          "log": "/tmp/cao-live-evidence-20261011/quality2/value-static.log",
+          "tests": 0
+        },
+        {
+          "argv": [
+            "python3",
+            "coverage_check.py"
+          ],
+          "assertion_only": false,
+          "duration_seconds": 0.03909341599501204,
+          "errors": [],
+          "exit_code": 0,
+          "failures": [],
+          "junit": null,
+          "junit_files": [],
+          "log": "/tmp/cao-live-evidence-20261011/quality2/value-coverage.log",
+          "tests": 0
+        }
+      ],
+      "threads": [
+        {
+          "thread_id": "PRRT_kwDOVEcV0c6rKgI8",
+          "resolution_status": "RESOLVED",
+          "fix_commit_sha": "63915c7c920f78bc626b9bc466ced519d69ff6b0",
+          "test_evidence": [
+            {
+              "argv": [
+                "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/python",
+                "-m",
+                "pytest",
+                "-p",
+                "no:libtmux",
+                "test_value.py",
+                "--junitxml=.cao-runs/junit.xml"
+              ],
+              "assertion_only": true,
+              "duration_seconds": 0.25702912401175126,
+              "errors": [],
+              "exit_code": 0,
+              "failures": [],
+              "junit": "/tmp/cao-live-evidence-20261011/quality2/value-test-junit-0.xml",
+              "junit_files": [
+                "/tmp/cao-live-evidence-20261011/quality2/value-test-junit-0.xml"
+              ],
+              "log": "/tmp/cao-live-evidence-20261011/quality2/value-test.log",
+              "tests": 3
+            },
+            {
+              "argv": [
+                "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/ruff",
+                "check",
+                "app.py",
+                "test_value.py"
+              ],
+              "assertion_only": false,
+              "duration_seconds": 0.013552359989262186,
+              "errors": [],
+              "exit_code": 0,
+              "failures": [],
+              "junit": null,
+              "junit_files": [],
+              "log": "/tmp/cao-live-evidence-20261011/quality2/value-static.log",
+              "tests": 0
+            },
+            {
+              "argv": [
+                "python3",
+                "coverage_check.py"
+              ],
+              "assertion_only": false,
+              "duration_seconds": 0.03909341599501204,
+              "errors": [],
+              "exit_code": 0,
+              "failures": [],
+              "junit": null,
+              "junit_files": [],
+              "log": "/tmp/cao-live-evidence-20261011/quality2/value-coverage.log",
+              "tests": 0
+            }
+          ],
+          "reply_comment_id": 4240335360,
+          "github_is_resolved": true
+        }
+      ]
+    }
+  }
+}

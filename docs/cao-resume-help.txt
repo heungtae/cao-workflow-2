@@ -1,0 +1,26 @@
+Usage: cao workflow resume [OPTIONS] RUN_ID
+
+  Resume a crashed/failed run from its durable journal (blocks until done).
+
+  A script-tier resume RE-EXECUTES THE SCRIPT TOP-TO-BOTTOM; completed steps
+  are NOT skipped. Each step is decided as it arrives and is either REPLAYED
+  (its stored result is returned and nothing runs), EXECUTED (it runs again),
+  or HALTED (CAO will not decide alone, so the run stops there and waits for a
+  --decide). A step whose script changed at the same key DIVERGES and fails
+  the run instead.
+
+  Exit codes:   0  run reached COMPLETED   1  run reached FAILED / CANCELLED,
+  or the request errored
+
+  ``--decide`` carries a decision for a step the run halted on (issue #583,
+  FR-7). Each decision authorises exactly ONE attempt: if that attempt crashes
+  before it settles, the next resume asks again rather than re-executing on
+  old consent.
+
+Options:
+  --decide STEP_ID=DECISION  Resolve a halted step: --decide
+                             <step_id>=rerun|skip. 'rerun' authorises re-
+                             executing it; 'skip' authorises using its stored
+                             result. Repeatable.
+  --json                     Emit the result as JSON.
+  --help                     Show this message and exit.

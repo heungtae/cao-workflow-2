@@ -1,0 +1,28 @@
+repository {"url": "https://github.com/heungtae/cao-workflow-2-live-test-20261011", "private": true, "initial_base_sha": "46c1b9fd8a922932f625a1d39e1b94fa0ed317a3"}
+issue_intake {"url": "https://github.com/heungtae/cao-workflow-2-live-test-20261011/issues/1", "status": "PASS"}
+Traceback (most recent call last):
+  File "/tmp/cao-live-validation.py", line 93, in <module>
+    created=create_pr(api,repository,state,'CAO live functional validation',
+                      'Dedicated disposable integration fixture. PR stays open for human review.',[])
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/workflow_lib/pr_create.py", line 108, in create_pr
+    found = existing()
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/workflow_lib/pr_create.py", line 94, in existing
+    pages = api.call("list_prs", {"branch": branch})
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/workflow_lib/github_pr.py", line 40, in call
+    return self.transport(operation, payload)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/workflow_lib/github_pr.py", line 138, in _transport
+    return self._gh(
+           ~~~~~~~~^
+        [
+        ^
+    ...<4 lines>...
+        ]
+        ^
+    )
+    ^
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/workflow_lib/github_pr.py", line 84, in _gh
+    raise PermissionError(
+        "GitHub request failed; inspect authentication/permissions (no secret output logged)"
+    )
+PermissionError: GitHub request failed; inspect authentication/permissions (no secret output logged)

@@ -1,0 +1,21 @@
+test_install (unittest.loader._FailedTest.test_install) ... ERROR
+
+======================================================================
+ERROR: test_install (unittest.loader._FailedTest.test_install)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_install
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 426, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/usr/lib/python3.14/unittest/loader.py", line 367, in _get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/tests/test_install.py", line 4, in <module>
+    from workflow_lib.installation import install, uninstall
+ModuleNotFoundError: No module named 'workflow_lib.installation'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

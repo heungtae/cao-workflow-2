@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "python3",
+    "coverage_check.py"
+  ],
+  "exit_code": 0,
+  "log": "/tmp/cao-live-evidence-20261011/quality/live-coverage.log",
+  "tests": 0,
+  "failures": [],
+  "errors": [],
+  "junit": null,
+  "assertion_only": false,
+  "duration_seconds": 0.03904920599597972,
+  "junit_files": []
+}

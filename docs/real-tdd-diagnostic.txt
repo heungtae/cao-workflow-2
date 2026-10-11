@@ -1,0 +1,6 @@
+test_actual_pytest_red_green_refactor_and_coverage_commands (test_real_tdd.RealTDDTests.test_actual_pytest_red_green_refactor_and_coverage_commands) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.631s
+
+OK

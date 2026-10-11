@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "thread_id",
+    "resolution_status",
+    "fix_commit_sha",
+    "test_evidence",
+    "reply_comment_id",
+    "github_is_resolved"
+  ],
+  "properties": {
+    "thread_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resolution_status": {
+      "enum": [
+        "OPEN",
+        "IN_PROGRESS",
+        "FIXED",
+        "RESOLVED",
+        "DISPUTED",
+        "BLOCKED"
+      ]
+    },
+    "fix_commit_sha": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "test_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "reply_comment_id": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "github_is_resolved": {
+      "type": "boolean"
+    }
+  }
+}

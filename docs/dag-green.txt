@@ -1,0 +1,65 @@
+test_actual_shim_contract_budget_replay (test_agent.AgentTests.test_actual_shim_contract_budget_replay) ... ok
+test_approval_requires_committed_specs (test_development_orchestrator.DevelopmentTests.test_approval_requires_committed_specs) ... ok
+test_blocked_spec_and_bounded_cycles (test_development_orchestrator.DevelopmentTests.test_blocked_spec_and_bounded_cycles) ... ok
+test_green_failure_no_review (test_development_orchestrator.DevelopmentTests.test_green_failure_no_review) ... ok
+test_loop_and_no_planner_or_pr (test_development_orchestrator.DevelopmentTests.test_loop_and_no_planner_or_pr) ... ok
+test_missing_specs_and_invalid_results (test_development_orchestrator.DevelopmentTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_development_orchestrator.DevelopmentTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_development_orchestrator.DevelopmentTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_development_orchestrator.DevelopmentTests.test_review_readonly_detects_mutation) ... ok
+test_approval_requires_committed_specs (test_workflows.ProjectTests.test_approval_requires_committed_specs) ... ok
+test_missing_specs_and_invalid_results (test_workflows.ProjectTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_workflows.ProjectTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_workflows.ProjectTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_workflows.ProjectTests.test_review_readonly_detects_mutation) ... ok
+test_apply_resume_after_ci_delay_without_duplicate_fix_push_reply (test_end_to_end.E2ETests.test_apply_resume_after_ci_delay_without_duplicate_fix_push_reply) ... ok
+test_completed_issue_revalidates_ci_and_new_threads (test_end_to_end.E2ETests.test_completed_issue_revalidates_ci_and_new_threads) ... ok
+test_review_apply_rereview_and_no_external_merge (test_end_to_end.E2ETests.test_review_apply_rereview_and_no_external_merge) ... ok
+test_sha_race_and_cycle_cap (test_end_to_end.E2ETests.test_sha_race_and_cycle_cap) ... ok
+test_junit_assertion_infra_and_redaction (test_gate_execution.GateExecutionTests.test_junit_assertion_infra_and_redaction) ... ok
+test_real_isolated_command_and_no_network_or_credentials (test_gate_execution.GateExecutionTests.test_real_isolated_command_and_no_network_or_credentials) ... skipped 'run with CAO_TEST_ISOLATION=1 on namespace-enabled host'
+test_collision_force_restore_and_modified_protection (test_install.InstallTests.test_collision_force_restore_and_modified_protection) ... ok
+test_install_reinstall_uninstall_preserves_user (test_install.InstallTests.test_install_reinstall_uninstall_preserves_user) ... ok
+test_rollback_and_dry_run (test_install.InstallTests.test_rollback_and_dry_run) ... ok
+test_symlink_escape_rejected (test_install.InstallTests.test_symlink_escape_rejected) ... ok
+test_dryrun_and_highrisk_no_steps (test_issue_orchestrator.IntakeTests.test_dryrun_and_highrisk_no_steps) ... ok
+test_issue_stops_at_human_merge_and_resume (test_issue_orchestrator.IntakeTests.test_issue_stops_at_human_merge_and_resume) ... ok
+test_origin_and_sensitive_scope (test_issue_orchestrator.IntakeTests.test_origin_and_sensitive_scope) ... ok
+test_adapter_never_grants_forbidden_operations (test_never_merge.NeverMergeTests.test_adapter_never_grants_forbidden_operations) ... ok
+test_denied_commands_all_approval_modes (test_never_merge.NeverMergeTests.test_denied_commands_all_approval_modes) ... ok
+test_no_executable_merge_paths (test_never_merge.NeverMergeTests.test_no_executable_merge_paths) ... ok
+test_ci_delay_outdated_resolve_failure_permission (test_pr_apply.ApplyTests.test_ci_delay_outdated_resolve_failure_permission) ... ok
+test_failure_and_dispute_never_resolve (test_pr_apply.ApplyTests.test_failure_and_dispute_never_resolve) ... ok
+test_fix_test_reply_resolve_open (test_pr_apply.ApplyTests.test_fix_test_reply_resolve_open) ... ok
+test_allowlist_and_dryrun (test_pr_review_threads.ReviewTests.test_allowlist_and_dryrun) ... ok
+test_inline_and_dedup (test_pr_review_threads.ReviewTests.test_inline_and_dedup) ... ok
+test_stale_sha_and_invalid_line (test_pr_review_threads.ReviewTests.test_stale_sha_and_invalid_line) ... ok
+test_approval_requires_committed_specs (test_workflows.ProjectTests.test_approval_requires_committed_specs) ... ok
+test_missing_specs_and_invalid_results (test_workflows.ProjectTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_workflows.ProjectTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_workflows.ProjectTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_workflows.ProjectTests.test_review_readonly_detects_mutation) ... ok
+test_assertion_only_is_red (test_quality_gate.RedTests.test_assertion_only_is_red) ... ok
+test_approval_requires_committed_specs (test_quality_gate.TDDTests.test_approval_requires_committed_specs) ... ok
+test_green_failure_stops_refactor (test_quality_gate.TDDTests.test_green_failure_stops_refactor) ... ok
+test_missing_specs_and_invalid_results (test_quality_gate.TDDTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_quality_gate.TDDTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_quality_gate.TDDTests.test_planner_only_plan_and_approval_hash) ... ok
+test_red_green_refactor_order (test_quality_gate.TDDTests.test_red_green_refactor_order) ... ok
+test_review_readonly_detects_mutation (test_quality_gate.TDDTests.test_review_readonly_detects_mutation) ... ok
+test_test_tampering_and_spec_change_blocked (test_quality_gate.TDDTests.test_test_tampering_and_spec_change_blocked) ... ok
+test_cancel_and_exclusion (test_recovery.RecoveryTests.test_cancel_and_exclusion) ... ok
+test_checkpoint_replay_and_inputs_frozen (test_recovery.RecoveryTests.test_checkpoint_replay_and_inputs_frozen) ... ok
+test_dag_and_ownership (test_recovery.RecoveryTests.test_dag_and_ownership) ... ok
+test_real_dag_worktrees_preserve_source (test_recovery.RecoveryTests.test_real_dag_worktrees_preserve_source) ... ok
+test_unknown_completion_requires_reconcile (test_recovery.RecoveryTests.test_unknown_completion_requires_reconcile) ... ok
+test_approval_requires_committed_specs (test_workflows.ProjectTests.test_approval_requires_committed_specs) ... ok
+test_missing_specs_and_invalid_results (test_workflows.ProjectTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_workflows.ProjectTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_workflows.ProjectTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_workflows.ProjectTests.test_review_readonly_detects_mutation) ... ok
+
+----------------------------------------------------------------------
+Ran 60 tests in 0.862s
+
+OK (skipped=1)

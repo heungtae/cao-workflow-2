@@ -1,0 +1,13 @@
+test_collision_force_restore_and_modified_protection (test_install.InstallTests.test_collision_force_restore_and_modified_protection) ... ok
+test_install_reinstall_uninstall_preserves_user (test_install.InstallTests.test_install_reinstall_uninstall_preserves_user) ... ok
+test_rollback_and_dry_run (test_install.InstallTests.test_rollback_and_dry_run) ... ok
+test_symlink_escape_rejected (test_install.InstallTests.test_symlink_escape_rejected) ... ok
+test_missing_specs_and_invalid_results (test_workflows.ProjectTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_workflows.ProjectTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_workflows.ProjectTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_workflows.ProjectTests.test_review_readonly_detects_mutation) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.042s
+
+OK

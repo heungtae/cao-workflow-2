@@ -1,0 +1,25 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.4, pytest-9.1.1, pluggy-1.6.0
+rootdir: /tmp/cao-workflow-2-live-test-20261011
+plugins: platformdirs-4.13.0, anyio-4.15.1
+collected 2 items
+
+test_value.py .F                                                         [100%]
+
+=================================== FAILURES ===================================
+__________________________________ test_label __________________________________
+
+    def test_label():
+        from app import label
+
+>       assert label() == "ready"
+E       AssertionError: assert 'pending' == 'ready'
+E
+E         - ready
+E         + pending
+
+test_value.py:11: AssertionError
+- generated xml file: /tmp/cao-workflow-2-live-test-20261011/.cao-runs/junit.xml -
+=========================== short test summary info ============================
+FAILED test_value.py::test_label - AssertionError: assert 'pending' == 'ready'
+========================= 1 failed, 1 passed in 0.03s ==========================

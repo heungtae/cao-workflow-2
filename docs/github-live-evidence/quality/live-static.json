@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "/home/heungtae/develop/ai-agent/cao-workflow-2/.venv/bin/ruff",
+    "check",
+    "app.py",
+    "test_value.py"
+  ],
+  "exit_code": 0,
+  "log": "/tmp/cao-live-evidence-20261011/quality/live-static.log",
+  "tests": 0,
+  "failures": [],
+  "errors": [],
+  "junit": null,
+  "assertion_only": false,
+  "duration_seconds": 0.01286079699639231,
+  "junit_files": []
+}

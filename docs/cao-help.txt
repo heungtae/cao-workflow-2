@@ -1,0 +1,29 @@
+Usage: cao [OPTIONS] COMMAND [ARGS]...
+
+  CLI Agent Orchestrator.
+
+Options:
+  -V, --version  Show the version and exit.
+  --help         Show this message and exit.
+
+Commands:
+  agent       Orchestrate other agents from the shell.
+  config      Inspect and edit unified CAO configuration (settings.json).
+  env         Manage CAO environment variables.
+  fleet       Inspect and tear down a CAO fleet's workers.
+  info        Display information about the current session.
+  init        Initialize CLI Agent Orchestrator database.
+  install     Install an agent from local store, built-in store, URL, or...
+  launch      Launch cao session with specified agent profile.
+  mcp-server  Start the CAO MCP server.
+  memory      Manage CAO memories.
+  profile     Manage agent profiles.
+  schedule    Manage scheduled agent flows.
+  session     Manage CAO sessions.
+  shutdown    Shutdown tmux sessions and cleanup terminal records.
+  skills      Manage installed skills.
+  terminal    Manage CAO terminals.
+  tui         Launch the terminal UI (bundled Rust binary).
+  update      Update CAO to the latest version.
+  worker      Inspect and talk to workers in a CAO cluster.
+  workflow    Author and inspect CAO workflow specs.

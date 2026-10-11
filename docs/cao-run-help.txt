@@ -1,0 +1,24 @@
+Usage: cao workflow run [OPTIONS] NAME_OR_PATH
+
+  Run a workflow.
+
+  By default (FR-4, issue #505) ``run`` SUBMITS the run asynchronously, prints
+  the run id immediately, then FOLLOWS it — polling status to a terminal
+  state. Ctrl-C during the follow DETACHES (the run keeps running server-side;
+  it is never cancelled). ``--detach`` submits and returns the id without
+  following. ``--wait`` is the explicit blocking escape hatch (the retained
+  inline path).
+
+  Exit codes (identical on a TTY, a non-TTY, and under ``--json``):   0  run
+  reached COMPLETED (or ``--detach`` submitted, or Ctrl-C detached)   1  run
+  reached FAILED / CANCELLED, or the request errored
+
+Options:
+  --input TEXT   Run input as k=v (repeatable).
+  --run-id TEXT  Optional explicit run id.
+  --detach       Submit and return the run id immediately without following
+                 (exit 0 on submit).
+  --wait         Block on the server inline until the run finishes (the
+                 retained blocking path).
+  --json         Emit the result as JSON.
+  --help         Show this message and exit.

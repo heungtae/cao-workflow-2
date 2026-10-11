@@ -1,0 +1,41 @@
+test_collision_force_restore_and_modified_protection (test_install.InstallTests.test_collision_force_restore_and_modified_protection) ... ok
+test_install_reinstall_uninstall_preserves_user (test_install.InstallTests.test_install_reinstall_uninstall_preserves_user) ... ok
+test_rollback_and_dry_run (test_install.InstallTests.test_rollback_and_dry_run) ... ok
+test_symlink_escape_rejected (test_install.InstallTests.test_symlink_escape_rejected) ... ok
+test_pr_review_threads (unittest.loader._FailedTest.test_pr_review_threads) ... ERROR
+test_missing_specs_and_invalid_results (test_workflows.ProjectTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_workflows.ProjectTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_workflows.ProjectTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_workflows.ProjectTests.test_review_readonly_detects_mutation) ... ok
+test_assertion_only_is_red (test_quality_gate.RedTests.test_assertion_only_is_red) ... ok
+test_green_failure_stops_refactor (test_quality_gate.TDDTests.test_green_failure_stops_refactor) ... ok
+test_missing_specs_and_invalid_results (test_quality_gate.TDDTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_quality_gate.TDDTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_quality_gate.TDDTests.test_planner_only_plan_and_approval_hash) ... ok
+test_red_green_refactor_order (test_quality_gate.TDDTests.test_red_green_refactor_order) ... ok
+test_review_readonly_detects_mutation (test_quality_gate.TDDTests.test_review_readonly_detects_mutation) ... ok
+test_test_tampering_and_spec_change_blocked (test_quality_gate.TDDTests.test_test_tampering_and_spec_change_blocked) ... ok
+test_missing_specs_and_invalid_results (test_workflows.ProjectTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_workflows.ProjectTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_workflows.ProjectTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_workflows.ProjectTests.test_review_readonly_detects_mutation) ... ok
+
+======================================================================
+ERROR: test_pr_review_threads (unittest.loader._FailedTest.test_pr_review_threads)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_pr_review_threads
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 426, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/usr/lib/python3.14/unittest/loader.py", line 367, in _get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/tests/test_pr_review_threads.py", line 2, in <module>
+    from workflow_lib.github_pr import GitHub, MockGitHub
+ModuleNotFoundError: No module named 'workflow_lib.github_pr'
+
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.156s
+
+FAILED (errors=1)

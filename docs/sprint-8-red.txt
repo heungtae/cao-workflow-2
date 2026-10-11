@@ -1,0 +1,62 @@
+test_blocked_spec_and_bounded_cycles (test_development_orchestrator.DevelopmentTests.test_blocked_spec_and_bounded_cycles) ... ok
+test_green_failure_no_review (test_development_orchestrator.DevelopmentTests.test_green_failure_no_review) ... ok
+test_loop_and_no_planner_or_pr (test_development_orchestrator.DevelopmentTests.test_loop_and_no_planner_or_pr) ... ok
+test_missing_specs_and_invalid_results (test_development_orchestrator.DevelopmentTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_development_orchestrator.DevelopmentTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_development_orchestrator.DevelopmentTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_development_orchestrator.DevelopmentTests.test_review_readonly_detects_mutation) ... ok
+test_missing_specs_and_invalid_results (test_workflows.ProjectTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_workflows.ProjectTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_workflows.ProjectTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_workflows.ProjectTests.test_review_readonly_detects_mutation) ... ok
+test_collision_force_restore_and_modified_protection (test_install.InstallTests.test_collision_force_restore_and_modified_protection) ... ok
+test_install_reinstall_uninstall_preserves_user (test_install.InstallTests.test_install_reinstall_uninstall_preserves_user) ... ok
+test_rollback_and_dry_run (test_install.InstallTests.test_rollback_and_dry_run) ... ok
+test_symlink_escape_rejected (test_install.InstallTests.test_symlink_escape_rejected) ... ok
+test_dryrun_and_highrisk_no_steps (test_issue_orchestrator.IntakeTests.test_dryrun_and_highrisk_no_steps) ... ok
+test_issue_stops_at_human_merge_and_resume (test_issue_orchestrator.IntakeTests.test_issue_stops_at_human_merge_and_resume) ... ok
+test_origin_and_sensitive_scope (test_issue_orchestrator.IntakeTests.test_origin_and_sensitive_scope) ... ok
+test_pr_apply (unittest.loader._FailedTest.test_pr_apply) ... ERROR
+test_allowlist_and_dryrun (test_pr_review_threads.ReviewTests.test_allowlist_and_dryrun) ... ok
+test_inline_and_dedup (test_pr_review_threads.ReviewTests.test_inline_and_dedup) ... ok
+test_stale_sha_and_invalid_line (test_pr_review_threads.ReviewTests.test_stale_sha_and_invalid_line) ... ok
+test_missing_specs_and_invalid_results (test_workflows.ProjectTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_workflows.ProjectTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_workflows.ProjectTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_workflows.ProjectTests.test_review_readonly_detects_mutation) ... ok
+test_assertion_only_is_red (test_quality_gate.RedTests.test_assertion_only_is_red) ... ok
+test_green_failure_stops_refactor (test_quality_gate.TDDTests.test_green_failure_stops_refactor) ... ok
+test_missing_specs_and_invalid_results (test_quality_gate.TDDTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_quality_gate.TDDTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_quality_gate.TDDTests.test_planner_only_plan_and_approval_hash) ... ok
+test_red_green_refactor_order (test_quality_gate.TDDTests.test_red_green_refactor_order) ... ok
+test_review_readonly_detects_mutation (test_quality_gate.TDDTests.test_review_readonly_detects_mutation) ... ok
+test_test_tampering_and_spec_change_blocked (test_quality_gate.TDDTests.test_test_tampering_and_spec_change_blocked) ... ok
+test_cancel_and_exclusion (test_recovery.RecoveryTests.test_cancel_and_exclusion) ... ok
+test_checkpoint_replay_and_inputs_frozen (test_recovery.RecoveryTests.test_checkpoint_replay_and_inputs_frozen) ... ok
+test_dag_and_ownership (test_recovery.RecoveryTests.test_dag_and_ownership) ... ok
+test_unknown_completion_requires_reconcile (test_recovery.RecoveryTests.test_unknown_completion_requires_reconcile) ... ok
+test_missing_specs_and_invalid_results (test_workflows.ProjectTests.test_missing_specs_and_invalid_results) ... ok
+test_path_escape_and_non_git (test_workflows.ProjectTests.test_path_escape_and_non_git) ... ok
+test_planner_only_plan_and_approval_hash (test_workflows.ProjectTests.test_planner_only_plan_and_approval_hash) ... ok
+test_review_readonly_detects_mutation (test_workflows.ProjectTests.test_review_readonly_detects_mutation) ... ok
+
+======================================================================
+ERROR: test_pr_apply (unittest.loader._FailedTest.test_pr_apply)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_pr_apply
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 426, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/usr/lib/python3.14/unittest/loader.py", line 367, in _get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "/home/heungtae/develop/ai-agent/cao-workflow-2/tests/test_pr_apply.py", line 6, in <module>
+    from workflow_lib.review_threads import apply_threads
+ModuleNotFoundError: No module named 'workflow_lib.review_threads'
+
+
+----------------------------------------------------------------------
+Ran 42 tests in 0.248s
+
+FAILED (errors=1)

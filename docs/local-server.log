@@ -1,0 +1,44 @@
+INFO:     Started server process [1245679]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:47711 (Press CTRL+C to quit)
+Server logs: /tmp/cao-workflows-validation-bi66ngpp/cao-home/logs/cao_2026-10-11_14-02-43.log
+For debug logs: export CAO_LOG_LEVEL=DEBUG && cao-server
+INFO:     127.0.0.1:60436 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60452 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60454 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60466 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59170 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59186 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59190 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59200 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59206 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59208 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59224 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55216 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55220 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55228 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55234 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55248 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43836 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43838 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43844 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43852 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43854 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43868 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43870 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35834 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35840 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35844 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35858 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47462 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47470 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47474 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47486 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47490 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47494 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47498 - "POST /workflows/validate HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1245679]

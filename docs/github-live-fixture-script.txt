@@ -1,0 +1,186 @@
+import json
+import os
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+ROOT = Path('/home/heungtae/develop/ai-agent/cao-workflow-2')
+sys.path.insert(0, str(ROOT))
+from workflow_lib.github_pr import GitHub, WRITES
+from workflow_lib.issue_intake import event_digest, intake, verify_remote_issue
+from workflow_lib.issue_state import State
+from workflow_lib.pr_create import Repository, create_pr
+from workflow_lib.project import Project
+from workflow_lib.review import inline_review
+from workflow_lib.review_threads import apply_threads
+from harness.quality_gate import QualityGate
+
+REPO = 'heungtae/cao-workflow-2-live-test-20261011'
+TARGET = Path('/tmp/cao-workflow-2-live-test-20261011')
+ART = Path('/tmp/cao-live-evidence-20261011')
+ART.mkdir(exist_ok=True)
+SUMMARY = {}
+def save():
+    (ART/'result.json').write_text(json.dumps(SUMMARY, indent=2)+'\n')
+def stage(name, value):
+    SUMMARY[name]=value
+    save()
+    print(name, json.dumps(value), flush=True)
+def command(*args, cwd=None):
+    proc=subprocess.run(args, cwd=cwd, text=True, capture_output=True, timeout=120, check=True)
+    return proc.stdout.strip()
+def gh(*args):
+    return command('gh',*args)
+
+policy={'repo':REPO,'repositories':[REPO], 'github_operations':sorted(WRITES),
+        'allow_feature_push':True,'base':'main','required_checks':['fixture-test'],
+        'trusted_authors':['heungtae'],'auto_low_risk':True,'allowed_files':['app.py','test_value.py']}
+api=GitHub(REPO,dry_run=False,authorized=True,policy=policy)
+base_sha=gh('api',f'repos/{REPO}/git/ref/heads/main','--jq','.object.sha')
+stage('repository',{'url':'https://github.com/'+REPO,'private':True,'initial_base_sha':base_sha})
+issue_body='Test fixture: value() returns 42 and label() returns the word ready.'
+issues=json.loads(gh('api',f'repos/{REPO}/issues?state=open'))
+existing=next((x for x in issues if x.get('title')=='CAO live integration fixture' and not x.get('pull_request')),None)
+if existing is None:
+    proc=subprocess.run(['gh','api','--method','POST',f'repos/{REPO}/issues','--input','-'],
+                        input=json.dumps({'title':'CAO live integration fixture','body':issue_body}),
+                        text=True,capture_output=True,check=True,timeout=60)
+    existing=json.loads(proc.stdout)
+event={'repo':REPO,'issue_number':existing['number'],'author':'heungtae','origin_id':'live-fixture',
+       'event_id':'live-20261011','body':issue_body,'risk':'low','files':['app.py','test_value.py']}
+policy['origins']={'live-fixture':{'event_id':event['event_id'],'digest':event_digest(event)}}
+assert intake(event,policy)=='PASS'
+verify_remote_issue(event,api)
+stage('issue_intake',{'url':existing['html_url'],'status':'PASS'})
+(ART/'policy.json').write_text(json.dumps(policy,indent=2)+'\n')
+(ART/'event.json').write_text(json.dumps(event,indent=2)+'\n')
+branch='cao/live-fixture'
+current=command('git','branch','--show-current',cwd=TARGET)
+if current!=branch:
+    command('git','switch','-c',branch,cwd=TARGET)
+command('git','config','user.name','CAO Integration Fixture',cwd=TARGET)
+command('git','config','user.email','cao-fixture@example.invalid',cwd=TARGET)
+if not (TARGET/'app.py').exists():
+    (TARGET/'.gitignore').write_text('.cao-runs/\n__pycache__/\n.pytest_cache/\n.ruff_cache/\n')
+    (TARGET/'app.py').write_text('def value():\n    return 0\n\n\ndef label():\n    return "pending"\n')
+    (TARGET/'test_value.py').write_text('from app import value\n\n\ndef test_type():\n    assert isinstance(value(), int)\n')
+    (TARGET/'.github/workflows').mkdir(parents=True)
+    (TARGET/'.github/workflows/fixture.yml').write_text('''name: CAO live fixture
+on:
+  pull_request:
+  push:
+    branches: ["cao/**"]
+permissions:
+  contents: read
+jobs:
+  fixture-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install pytest
+      - run: python -m pytest -q
+''')
+    # Operator fixture bootstrap on the owned feature branch, never a base push.
+    command('git','-c','core.hooksPath=/dev/null','add','--','.gitignore','.github/workflows/fixture.yml','app.py','test_value.py',cwd=TARGET)
+    command('git','-c','core.hooksPath=/dev/null','-c','commit.gpgsign=false','commit','-m','test: bootstrap isolated live fixture',cwd=TARGET)
+project=Project(str(TARGET),'001-live')
+repository=Repository(project,REPO,branch,'main')
+with State(ART/'state.db',REPO+'#'+str(existing['number']),{'repo':REPO,'fixture':'20261011'}) as state:
+    created=create_pr(api,repository,state,'CAO live functional validation',
+                      'Dedicated disposable integration fixture. PR stays open for human review.',[])
+    repeated=create_pr(api,repository,state,'CAO live functional validation','same fixture',[])
+    assert repeated==created
+    number=created['pr_number']
+    stage('pr_create',{'url':f'https://github.com/{REPO}/pull/{number}','status':'PASS','reused':True,**created})
+    initial=created['head_sha']
+    finding={'finding_id':'LIVE-F1','thread_id':None,'comment_id':None,'type':'bug','priority':'high',
+             'file':'app.py','line':6,'head_sha':initial,'requirement_id':'REQ-LABEL',
+             'expected_behavior':'label() must return ready','suggested_fix':'Return ready and add a regression test.'}
+    reviewed=inline_review(api,number,{'status':'CHANGES_REQUIRED','head_sha':initial,'findings':[finding]})
+    before=api.threads(number)
+    inline_review(api,number,reviewed)
+    assert len(api.threads(number))==len(before)==1
+    stage('inline_review',{'status':'PASS','deduplicated':True,'thread_id':finding['thread_id']})
+    stale=dict(finding,head_sha='a'*40)
+    try:
+        inline_review(api,number,{'status':'CHANGES_REQUIRED','head_sha':'a'*40,'findings':[stale]})
+        raise AssertionError('stale review accepted')
+    except ValueError:
+        stage('stale_sha_denied',True)
+    readonly=GitHub(REPO)
+    try:
+        readonly.call('resolve',{'thread_id':finding['thread_id']})
+        raise AssertionError('unauthorized resolve accepted')
+    except PermissionError:
+        stage('unauthorized_write_denied',True)
+    for op in ('merge','auto_merge','queue','close_issue'):
+        try:
+            api.call(op,{})
+            raise AssertionError('forbidden operation accepted')
+        except ValueError:
+            pass
+    stage('forbidden_operations_denied',True)
+    config={
+        'test':{'argv':[str(ROOT/'.venv/bin/python'),'-m','pytest','-p','no:libtmux','test_value.py','--junitxml=.cao-runs/junit.xml'],'junit':'.cao-runs/junit.xml'},
+        'static':{'argv':[str(ROOT/'.venv/bin/ruff'),'check','app.py','test_value.py']},
+        'coverage':{'argv':['python3','coverage_check.py']},
+        'readonly_roots':[str(ROOT)]
+    }
+    (TARGET/'coverage_check.py').write_text('''import ast
+import trace
+from pathlib import Path
+runner = trace.Trace(count=True, trace=False)
+runner.run('import app; app.value(); assert app.label() == "ready"')
+source = Path('app.py').resolve()
+required = {n.lineno for n in ast.walk(ast.parse(source.read_text())) if isinstance(n, ast.stmt)}
+observed = {line for (file, line), count in runner.results().counts.items() if Path(file).resolve() == source and count > 0}
+assert len(required & observed) / len(required) >= 0.85
+''')
+    gates=QualityGate(project,config,ART/'quality')
+    counts={'fix':0,'push':0}
+    def fix(thread):
+        counts['fix']+=1
+        test=TARGET/'test_value.py'
+        if 'test_label' not in test.read_text():
+            test.write_text(test.read_text()+'\n\ndef test_label():\n    from app import label\n\n    assert label() == "ready"\n')
+            red=gates.execute('live-red',config['test']).json()
+            assert red['exit_code']==1 and red['assertion_only'] and red['failures']
+            stage('red',red)
+        (TARGET/'app.py').write_text('def value():\n    return 0\n\n\ndef label():\n    return "ready"\n')
+        return {'status':'FIXED'}
+    def quality():
+        return [gates.execute('live-'+name,config[name]).json() for name in ('test','static','coverage')]
+    def push(expected):
+        counts['push']+=1
+        return repository.commit_push(['app.py','test_value.py','coverage_check.py'],'live inline correction',expected_remote=expected)
+    output=apply_threads(api,number,state,fix,quality,push,required_checks=['fixture-test'],scope='live')
+    stage('first_apply',output)
+    deadline=time.monotonic()+300
+    while output['status']=='BLOCKED_ENVIRONMENT' and time.monotonic()<deadline:
+        print('Waiting for actual GitHub CI',flush=True)
+        time.sleep(10)
+        output=apply_threads(api,number,state,fix,quality,push,required_checks=['fixture-test'],scope='live')
+        stage('apply_resume',{'status':output['status'],'head_sha':output['head_sha']})
+    assert output['status']=='PASS',output
+    assert counts=={'fix':1,'push':1},counts
+    stage('pr_apply',{'status':'PASS','resume_no_duplicate_fix_or_push':True,'counts':counts,'result':output})
+    threads=api.threads(number)
+    assert len(threads)==1 and threads[0]['is_resolved'] and len(threads[0]['comments'])==2
+    assert api.ci(number,output['head_sha'],['fixture-test'])
+    pr=api.pr(number)
+    final_base=gh('api',f'repos/{REPO}/git/ref/heads/main','--jq','.object.sha')
+    assert base_sha==final_base
+    actual_issue=api.call('issue',{'number':event['issue_number']})
+    assert actual_issue['state']=='open'
+    raw_pr=json.loads(gh('api',f'repos/{REPO}/pulls/{number}'))
+    assert not raw_pr['merged'] and raw_pr['auto_merge'] is None and raw_pr['state']=='open'
+    stage('final',{'status':'AWAITING_HUMAN_MERGE','pr_state':pr['state'],'draft':raw_pr['draft'],
+                  'merged':False,'auto_merge':None,'issue_state':'open','base_sha_unchanged':True,
+                  'thread_resolved':True,'thread_comment_count':2,'head_sha':pr['head_sha']})
+    stage('audit',api.audit)
+    stage('qualification',{'github':'LIVE_VERIFIED','quality':'ISOLATED_REAL_COMMANDS','provider_agent':'NOT_EXECUTED','planner':'NOT_EXECUTED','issue_orchestrator':'NOT_EXECUTED'})
+print('LIVE GITHUB INTEGRATION PASS',flush=True)

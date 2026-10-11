@@ -1,0 +1,149 @@
+import json
+import os
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+ROOT = Path('/home/heungtae/develop/ai-agent/cao-workflow-2')
+sys.path.insert(0, str(ROOT))
+from workflow_lib.github_pr import GitHub, WRITES
+from workflow_lib.issue_intake import event_digest, intake, verify_remote_issue
+from workflow_lib.issue_state import State
+from workflow_lib.pr_create import Repository, create_pr
+from workflow_lib.project import Project
+from workflow_lib.review import inline_review
+from workflow_lib.review_threads import apply_threads
+from harness.quality_gate import QualityGate
+
+REPO = 'heungtae/cao-workflow-2-live-test-20261011'
+TARGET = Path('/tmp/cao-workflow-2-live-test-20261011')
+ART = Path('/tmp/cao-live-evidence-20261011')
+ART.mkdir(exist_ok=True)
+SUMMARY = json.loads((ART/'result.json').read_text())
+def save():
+    (ART/'result.json').write_text(json.dumps(SUMMARY, indent=2)+'\n')
+def stage(name, value):
+    SUMMARY[name]=value
+    save()
+    print(name, json.dumps(value), flush=True)
+def command(*args, cwd=None):
+    proc=subprocess.run(args, cwd=cwd, text=True, capture_output=True, timeout=120, check=True)
+    return proc.stdout.strip()
+def gh(*args):
+    return command('gh',*args)
+
+policy={'repo':REPO,'repositories':[REPO], 'github_operations':sorted(WRITES),
+        'allow_feature_push':True,'base':'main','required_checks':['fixture-test'],
+        'trusted_authors':['heungtae'],'auto_low_risk':True,'allowed_files':['app.py','test_value.py']}
+api=GitHub(REPO,dry_run=False,authorized=True,policy=policy)
+base_sha=gh('api',f'repos/{REPO}/git/ref/heads/main','--jq','.object.sha')
+stage('repository',{'url':'https://github.com/'+REPO,'private':True,'initial_base_sha':base_sha})
+issue_body='Test fixture: value() returns 42 and label() returns the word ready.'
+issues=json.loads(gh('api',f'repos/{REPO}/issues?state=open'))
+existing=next((x for x in issues if x.get('title')=='CAO live integration fixture' and not x.get('pull_request')),None)
+if existing is None:
+    proc=subprocess.run(['gh','api','--method','POST',f'repos/{REPO}/issues','--input','-'],
+                        input=json.dumps({'title':'CAO live integration fixture','body':issue_body}),
+                        text=True,capture_output=True,check=True,timeout=60)
+    existing=json.loads(proc.stdout)
+event={'repo':REPO,'issue_number':existing['number'],'author':'heungtae','origin_id':'live-fixture',
+       'event_id':'live-20261011','body':issue_body,'risk':'low','files':['app.py','test_value.py']}
+policy['origins']={'live-fixture':{'event_id':event['event_id'],'digest':event_digest(event)}}
+assert intake(event,policy)=='PASS'
+verify_remote_issue(event,api)
+stage('issue_intake',{'url':existing['html_url'],'status':'PASS'})
+(ART/'policy.json').write_text(json.dumps(policy,indent=2)+'\n')
+(ART/'event.json').write_text(json.dumps(event,indent=2)+'\n')
+branch='cao/live-fixture'
+current=command('git','branch','--show-current',cwd=TARGET)
+if current!=branch:
+    command('git','switch','-c',branch,cwd=TARGET)
+command('git','config','user.name','CAO Integration Fixture',cwd=TARGET)
+command('git','config','user.email','cao-fixture@example.invalid',cwd=TARGET)
+if not (TARGET/'app.py').exists():
+    (TARGET/'.gitignore').write_text('.cao-runs/\n__pycache__/\n.pytest_cache/\n.ruff_cache/\n')
+    (TARGET/'app.py').write_text('def value():\n    return 0\n\n\ndef label():\n    return "pending"\n')
+    (TARGET/'test_value.py').write_text('from app import value\n\n\ndef test_type():\n    assert isinstance(value(), int)\n')
+    (TARGET/'.github/workflows').mkdir(parents=True)
+    (TARGET/'.github/workflows/fixture.yml').write_text('''name: CAO live fixture
+on:
+  pull_request:
+  push:
+    branches: ["cao/**"]
+permissions:
+  contents: read
+jobs:
+  fixture-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install pytest
+      - run: python -m pytest -q
+''')
+    # Operator fixture bootstrap on the owned feature branch, never a base push.
+    command('git','-c','core.hooksPath=/dev/null','add','--','.gitignore','.github/workflows/fixture.yml','app.py','test_value.py',cwd=TARGET)
+    command('git','-c','core.hooksPath=/dev/null','-c','commit.gpgsign=false','commit','-m','test: bootstrap isolated live fixture',cwd=TARGET)
+project=Project(str(TARGET),'001-live')
+repository=Repository(project,REPO,branch,'main')
+
+number=2
+initial=api.pr(number)['head_sha']
+finding={'finding_id':'LIVE-F2','thread_id':None,'comment_id':None,'type':'bug','priority':'high',
+         'file':'app.py','line':2,'head_sha':initial,'requirement_id':'REQ-VALUE',
+         'expected_behavior':'value() must return 42','suggested_fix':'Return 42 and add a regression test.'}
+inline_review(api,number,{'status':'CHANGES_REQUIRED','head_sha':initial,'findings':[finding]})
+stage('second_inline_review',{'status':'PASS','thread_id':finding['thread_id'],'head_sha':initial})
+config={
+ 'test':{'argv':[str(ROOT/'.venv/bin/python'),'-m','pytest','-p','no:libtmux','test_value.py','--junitxml=.cao-runs/junit.xml'],'junit':'.cao-runs/junit.xml'},
+ 'static':{'argv':[str(ROOT/'.venv/bin/ruff'),'check','app.py','test_value.py']},
+ 'coverage':{'argv':['python3','coverage_check.py']},
+ 'readonly_roots':[str(ROOT)]
+}
+gates=QualityGate(project,config,ART/'quality2')
+counts={'fix':0,'push':0}
+def fix(thread):
+    counts['fix']+=1
+    test=TARGET/'test_value.py'
+    test.write_text(test.read_text()+'\n\ndef test_required_value():\n    assert value() == 42\n')
+    red=gates.execute('value-red',config['test']).json()
+    assert red['exit_code']==1 and red['assertion_only'] and red['failures']
+    stage('second_red',red)
+    (TARGET/'app.py').write_text('def value():\n    return 42\n\n\ndef label():\n    return "ready"\n')
+    p=TARGET/'coverage_check.py'
+    p.write_text(p.read_text().replace('app.value();','assert app.value() == 42;'))
+    return {'status':'FIXED'}
+def quality():
+    return [gates.execute('value-'+name,config[name]).json() for name in ('test','static','coverage')]
+def push(expected):
+    counts['push']+=1
+    return repository.commit_push(['app.py','test_value.py','coverage_check.py'],'second live correction',expected_remote=expected)
+with State(ART/'state.db',REPO+'#'+str(existing['number']),{'repo':REPO,'fixture':'20261011'}) as state:
+    output=apply_threads(api,number,state,fix,quality,push,required_checks=['fixture-test'],scope='live-value')
+    stage('second_first_apply',output)
+    deadline=time.monotonic()+300
+    while output['status']=='BLOCKED_ENVIRONMENT' and time.monotonic()<deadline:
+        print('Waiting for actual second-cycle CI',flush=True)
+        time.sleep(10)
+        output=apply_threads(api,number,state,fix,quality,push,required_checks=['fixture-test'],scope='live-value')
+        stage('second_apply_resume',{'status':output['status'],'head_sha':output['head_sha']})
+    assert output['status']=='PASS',output
+    assert counts=={'fix':1,'push':1},counts
+    stage('second_pr_apply',{'status':'PASS','counts':counts,'result':output})
+    threads=api.threads(number)
+    assert len(threads)==2 and all(t['is_resolved'] and len(t['comments'])==2 for t in threads)
+    final_base=gh('api',f'repos/{REPO}/git/ref/heads/main','--jq','.object.sha')
+    assert base_sha==final_base
+    assert api.ci(number,output['head_sha'],['fixture-test'])
+    assert api.call('issue',{'number':event['issue_number']})['state']=='open'
+    pr=json.loads(gh('api',f'repos/{REPO}/pulls/{number}'))
+    assert pr['state']=='open' and not pr['merged'] and pr['auto_merge'] is None
+    stage('final',{'status':'AWAITING_HUMAN_MERGE','pr_state':'OPEN','draft':pr['draft'],'merged':False,
+                  'auto_merge':None,'issue_state':'open','base_sha_unchanged':True,
+                  'resolved_threads':2,'comments_per_thread':2,'head_sha':pr['head']['sha']})
+    SUMMARY['audit']+=api.audit
+    save()
+print('LIVE SECOND REVIEW CYCLE PASS',flush=True)
